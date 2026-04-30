@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Suivi médicaments — La Maison</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#f5f5f5;color:#1a1a1a;padding:1.25rem;font-size:15px}
+.app-header{display:flex;align-items:center;gap:14px;margin-bottom:1.5rem}
+.app-title{font-size:22px;font-weight:700;color:#6b2d82;letter-spacing:.04em}
+.app-subtitle{font-size:12px;color:#3b8fc4;letter-spacing:.08em;text-transform:uppercase;font-weight:500;margin-top:2px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.5rem;align-items:center}
+.tab{padding:8px 20px;border-radius:24px;border:1px solid #ccc;cursor:pointer;font-size:14px;background:#fff;color:#666}
+.tab.active{background:#6b2d82;color:#fff;border-color:#6b2d82;font-weight:500}
+.tab:hover:not(.active){background:#f0f0f0}
+.tab-add{padding:8px 16px;border-radius:24px;border:1px dashed #ccc;cursor:pointer;font-size:14px;background:transparent;color:#999}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:14px;padding:1.25rem;margin-bottom:1rem}
+.card-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#999;margin-bottom:1rem}
+.card-yellow{border-color:#f5c842}
+.card-title-yellow{color:#7a4f00}
+.ordo-row{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;margin-bottom:6px;background:#f7f7f5}
+.ordo-row.active-o{background:#f5f0fa;border:1px solid #c9a8e0}
+.ordo-text{flex:1}
+.ordo-name{font-size:14px;font-weight:600}
+.ordo-meta{font-size:12px;color:#888;margin-top:2px}
+.pill{display:inline-block;font-size:11px;padding:2px 9px;border-radius:20px}
+.pill-purple{background:#ede4f7;color:#6b2d82}
+.pill-gray{background:#f0f0f0;color:#888}
+.icon-btn{width:28px;height:28px;border-radius:7px;border:1px solid #ddd;background:transparent;cursor:pointer;font-size:13px;flex-shrink:0}
+.date-nav{display:flex;align-items:center;gap:8px;margin-bottom:1.25rem;flex-wrap:wrap}
+.date-label{font-size:16px;font-weight:600;min-width:180px;text-align:center}
+.nav-btn{width:32px;height:32px;border-radius:8px;border:1px solid #ddd;background:transparent;cursor:pointer;font-size:17px}
+.today-btn{font-size:13px;padding:5px 12px;border-radius:8px;border:1px solid #ddd;background:transparent;cursor:pointer;color:#666}
+.date-pick{border:1px solid #ddd;border-radius:8px;padding:5px 8px;font-size:13px;background:#fff;cursor:pointer}
+.locked-banner{background:#fdf0dc;border:1px solid #f5c842;border-radius:10px;padding:8px 14px;font-size:13px;color:#7a4f00;margin-bottom:1rem}
+.med-row{padding:12px 0;border-bottom:1px solid #eee}
+.med-row:last-child{border-bottom:none}
+.med-top{display:flex;align-items:center;gap:10px}
+.med-name-txt{flex:1;font-size:14px;font-weight:600}
+.med-dosage{font-size:12px;color:#888;font-weight:400}
+.med-motif{font-size:12px;color:#888}
+.prise-group{display:flex;gap:12px;align-items:center;flex-shrink:0}
+.prise-slot{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:56px}
+.prise-label{font-size:11px;color:#888;text-transform:uppercase;letter-spacing:.04em}
+.p-btn{width:38px;height:38px;border-radius:50%;border:1px solid #ccc;background:transparent;cursor:pointer;font-size:16px}
+.p-btn.ok{background:#6b2d82;border-color:#6b2d82;color:#fff}
+.p-btn.partial{background:#e8a020;border-color:#e8a020;color:#fff}
+.p-btn.refused{background:#c0392b;border-color:#c0392b;color:#fff}
+.del-btn{width:24px;height:24px;border:none;background:none;cursor:pointer;color:#999;font-size:18px;opacity:.4;flex-shrink:0}
+.del-btn:hover{opacity:1}
+.note-wrap{margin-top:8px}
+.note-inp{width:100%;border:1px solid #ddd;border-radius:8px;padding:7px 10px;font-size:13px;background:#f7f7f5;color:#1a1a1a}
+.btn{padding:7px 16px;border-radius:9px;border:1px solid #ddd;background:#fff;color:#1a1a1a;cursor:pointer;font-size:13px;margin-right:4px;margin-bottom:4px}
+.btn:hover{background:#f0f0f0}
+.btn-purple{background:#6b2d82;color:#fff;border-color:#6b2d82}
+.btn-purple:hover{background:#5a2470}
+.btn-yellow{border-color:#f5c842;color:#7a4f00}
+.btn-danger{color:#c0392b;border-color:#f0c0bb}
+.form-box{background:#f7f7f5;border:1px solid #e0e0e0;border-radius:10px;padding:1rem;margin-top:.75rem;margin-bottom:.75rem}
+.form-box-yellow{border-color:#f5c842;background:#fdfaf0}
+.form-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px}
+.f-inp{border:1px solid #ddd;border-radius:8px;padding:7px 10px;font-size:13px;background:#fff;color:#1a1a1a;flex:1;min-width:120px}
+.f-inp[type=date]{min-width:150px;flex:0}
+.f-label{font-size:13px;color:#666;white-space:nowrap;min-width:60px}
+.radio-group{display:flex;gap:10px}
+.radio-opt{display:flex;align-items:center;gap:5px;font-size:13px;cursor:pointer}
+.empty{text-align:center;padding:2rem 1rem;color:#999;font-size:14px}
+.s-pill{padding:2px 9px;border-radius:20px;font-size:11px;font-weight:600}
+.s-ok{background:#ede4f7;color:#6b2d82}
+.s-partial{background:#fdf0dc;color:#7a4f00}
+.s-refused{background:#fde8e8;color:#8b1a1a}
+.search-bar{display:flex;gap:8px;margin-bottom:1rem;flex-wrap:wrap}
+.s-inp{border:1px solid #ddd;border-radius:10px;padding:8px 14px;font-size:14px;background:#fff;flex:1;min-width:160px}
+.s-select{border:1px solid #ddd;border-radius:10px;padding:8px 10px;font-size:14px;background:#fff;cursor:pointer}
+.sr-row{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid #eee;font-size:13px;cursor:pointer}
+.sr-row:last-child{border-bottom:none}
+.sr-date{width:120px;color:#888;flex-shrink:0;font-size:12px}
+.sr-girl{font-weight:600;color:#6b2d82;width:80px;flex-shrink:0}
+.month-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem}
+.m-tab{padding:5px 14px;border-radius:20px;border:1px solid #ddd;cursor:pointer;font-size:13px;background:#fff;color:#666}
+.m-tab.active{background:#6b2d82;color:#fff;border-color:#6b2d82}
+.arch-day{margin-bottom:.75rem}
+.arch-day-title{font-size:12px;font-weight:600;color:#888;margin-bottom:4px;text-transform:uppercase}
+.arch-entry{display:flex;align-items:center;gap:8px;font-size:13px;padding:4px 0}
+.sbar{position:fixed;bottom:1rem;right:1rem;background:#6b2d82;color:#fff;padding:6px 14px;border-radius:20px;font-size:13px;display:none}
+</style>
+</head>
+<body>
+
+<!-- ÉCRAN DE CONNEXION -->
+<div id="login-screen" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:80vh;gap:1rem">
+  <svg width="80" height="80" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="40" cy="38" r="26" fill="none" stroke="#f472b6" stroke-width="5" stroke-dasharray="16 8" stroke-linecap="round"/>
+    <circle cx="40" cy="38" r="26" fill="none" stroke="#facc15" stroke-width="5" stroke-dasharray="10 14" stroke-dashoffset="12" stroke-linecap="round"/>
+    <circle cx="40" cy="38" r="26" fill="none" stroke="#22d3ee" stroke-width="5" stroke-dasharray="13 11" stroke-dashoffset="26" stroke-linecap="round"/>
+    <polygon points="40,17 57,33 57,53 23,53 23,33" fill="#6b2d82"/>
+    <polygon points="40,15 22,32 58,32" fill="#6b2d82"/>
+    <circle cx="40" cy="36" r="7" fill="white"/>
+    <path d="M40,32.5 C40,32.5 36.5,30 36.5,33 C36.5,35 40,38 40,38 C40,38 43.5,35 43.5,33 C43.5,30 40,32.5 Z" fill="#6b2d82"/>
+  </svg>
+  <div style="font-size:24px;font-weight:700;color:#6b2d82">LA MAISON</div>
+  <div style="font-size:12px;color:#3b8fc4;text-transform:uppercase;letter-spacing:.08em">Suivi médicaments · LVA</div>
+  <div style="margin-top:1rem;background:#fff;border:1px solid #e0e0e0;border-radius:14px;padding:1.5rem;width:300px">
+    <div style="font-size:14px;color:#666;margin-bottom:.75rem;text-align:center">Accès réservé à l'équipe</div>
+    <input type="password" id="mdp-input" placeholder="Mot de passe" style="width:100%;border:1px solid #ddd;border-radius:8px;padding:8px 12px;font-size:14px;margin-bottom:.75rem;outline:none" onkeydown="if(event.key==='Enter')checkMdp()"/>
+    <button onclick="checkMdp()" style="width:100%;padding:9px;border-radius:9px;border:none;background:#6b2d82;color:#fff;font-size:14px;cursor:pointer">Connexion</button>
+    <div id="mdp-error" style="color:#c0392b;font-size:13px;text-align:center;margin-top:.5rem;display:none">Mot de passe incorrect.</div>
+  </div>
+</div>
+
+<!-- APPLI -->
+<div id="app-screen" style="display:none">
+  <div class="app-header">
+    <svg width="60" height="60" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="40" cy="38" r="26" fill="none" stroke="#f472b6" stroke-width="5" stroke-dasharray="16 8" stroke-linecap="round"/>
+      <circle cx="40" cy="38" r="26" fill="none" stroke="#facc15" stroke-width="5" stroke-dasharray="10 14" stroke-dashoffset="12" stroke-linecap="round"/>
+      <circle cx="40" cy="38" r="26" fill="none" stroke="#22d3ee" stroke-width="5" stroke-dasharray="13 11" stroke-dashoffset="26" stroke-linecap="round"/>
+      <polygon points="40,17 57,33 57,53 23,53 23,33" fill="#6b2d82"/>
+      <polygon points="40,15 22,32 58,32" fill="#6b2d82"/>
+      <circle cx="40" cy="36" r="7" fill="white"/>
+      <path d="M40,32.5 C40,32.5 36.5,30 36.5,33 C36.5,35 40,38 40,38 C40,38 43.5,35 43.5,33 C43.5,30 40,32.5 Z" fill="#6b2d82"/>
+    </svg>
+    <div>
+      <div class="app-title">LA MAISON</div>
+      <div class="app-subtitle">Suivi médicaments · LVA</div>
+    </div>
+  </div>
+  <div class="tabs" id="tabs"></div>
+  <div id="panels"></div>
+  <div class="sbar" id="sbar">Sauvegarde…</div>
+</div>
+
+<script>
+// ============================================================
+// CONFIGURATION — À MODIFIER AVANT DE METTRE EN LIGNE
+// ============================================================
+const MOT_DE_PASSE = 'Avril26';
+const DATE_MDP = '2026-04-27'; // Mettre à jour quand tu changes le mot de passe
+const SB_URL = 'https://ypeixhbwcljhaikidkdp.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlwZWl4aGJ3Y2xqaGFpa2lka2RwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzczMDE1MzcsImV4cCI6MjA5Mjg3NzUzN30.lkUvpC3pHD3m4SedTI04WYGvwcgSEkeqx37EkaLH4oQ';
+// ============================================================
+
+const HDR = {'Content-Type':'application/json','apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY};
+const JOURS = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+const MOIS = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+
+function todayStr(){const n=new Date();return n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0')+'-'+String(n.getDate()).padStart(2,'0');}
+function fmtDate(d){const dt=new Date(d+'T12:00:00');return JOURS[dt.getDay()]+' '+dt.getDate()+' '+MOIS[dt.getMonth()]+' '+dt.getFullYear();}
+function fmtShort(d){if(!d)return '–';const dt=new Date(d+'T12:00:00');return dt.getDate()+'/'+(dt.getMonth()+1)+'/'+dt.getFullYear();}
+function addDays(s,n){const d=new Date(s+'T12:00:00');d.setDate(d.getDate()+n);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function monthOf(d){return d.slice(0,7);}
+function isLocked(date){return monthOf(date)<monthOf(todayStr());}
+function monthLabel(ym){const[y,m]=ym.split('-');return MOIS[parseInt(m)-1]+' '+y;}
+function q(s){return String(s).replace(/\\/g,'\\\\').replace(/'/g,"&#39;");}
+
+// AUTH
+function checkMdp(){
+  const val=document.getElementById('mdp-input')?.value;
+  if(val===MOT_DE_PASSE){
+    sessionStorage.setItem('auth','ok');
+    document.getElementById('login-screen').style.display='none';
+    document.getElementById('app-screen').style.display='block';
+    checkMdpAge();
+    loadData();
+  } else {
+    document.getElementById('mdp-error').style.display='block';
+  }
+}
+
+function checkMdpAge(){
+  const created=new Date(DATE_MDP+'T12:00:00');
+  const now=new Date();
+  const diffMois=(now.getFullYear()-created.getFullYear())*12+(now.getMonth()-created.getMonth());
+  if(diffMois>=6){
+    const banner=document.createElement('div');
+    banner.style.cssText='background:#fdf0dc;border:1px solid #f5c842;border-radius:10px;padding:10px 16px;font-size:13px;color:#7a4f00;margin-bottom:1rem;text-align:center';
+    banner.innerHTML='⏰ Ton mot de passe a plus de 6 mois — pense à le mettre à jour dans le fichier HTML.';
+    const app=document.getElementById('app-screen');
+    app.insertBefore(banner,app.children[1]);
+  }
+}
+
+function initApp(){
+  if(sessionStorage.getItem('auth')==='ok'){
+    document.getElementById('login-screen').style.display='none';
+    document.getElementById('app-screen').style.display='block';
+    checkMdpAge();
+    loadData();
+  }
+}
+
+// DATA
+let data={girls:[],logs:{}};
+let cur=null,rowId=null,saveTimer=null;
+let curDate={};
+let ui={showArch:{},showOrdoForm:{},showMedForm:{},showPonctForm:{},showRename:{},showArchive:{},showAddGirl:false,archMonth:{},searchQ:'',searchGirl:'',searchMed:'',loading:true,error:null};
+
+async function loadData(){
+  ui.loading=true;render();
+  try{
+    const r=await fetch(SB_URL+'/rest/v1/medics?select=*&order=id.asc&limit=1',{headers:HDR});
+    const rows=await r.json();
+    if(rows&&rows.length&&rows[0].data){rowId=rows[0].id;data=JSON.parse(rows[0].data);}
+    data.girls.forEach(g=>{curDate[g.id]=curDate[g.id]||todayStr();});
+    cur=data.girls.find(g=>!g.archived)?.id||null;
+    cleanExpiredOrdos();
+  }catch(e){ui.error='Erreur de chargement : '+e.message;}
+  ui.loading=false;render();
+}
+
+async function scheduleSave(){
+  const b=document.getElementById('sbar');if(b)b.style.display='block';
+  if(saveTimer)clearTimeout(saveTimer);
+  saveTimer=setTimeout(async()=>{
+    try{
+      const payload=JSON.stringify({data:JSON.stringify(data)});
+      if(rowId){await fetch(SB_URL+'/rest/v1/medics?id=eq.'+rowId,{method:'PATCH',headers:{...HDR,'Prefer':'return=minimal'},body:payload});}
+      else{const r=await fetch(SB_URL+'/rest/v1/medics',{method:'POST',headers:{...HDR,'Prefer':'return=representation'},body:payload});const rows=await r.json();if(rows&&rows[0])rowId=rows[0].id;}
+    }catch(e){console.error('Erreur sauvegarde',e);}
+    if(b)b.style.display='none';
+  },1000);
+}
+
+async function cleanExpiredOrdos(){
+  const today=todayStr();
+  data.girls.forEach(g=>{
+    if(!g.ordos)return;
+    g.ordos.forEach(async o=>{
+      if(o.expireDate&&o.expireDate<today&&o.pdfPath){
+        await fetch(SB_URL+'/storage/v1/object/ordonnances/'+o.pdfPath,{method:'DELETE',headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY}});
+        o.pdfPath='';
+        scheduleSave();
+      }
+    });
+  });
+}
+
+function girl(id){return data.girls.find(g=>g.id===id);}
+function getLog(gid,date,mid,mo){return data.logs[gid]?.[date]?.[mid]?.[mo]||{status:'',note:''};}
+function setLog(gid,date,mid,mo,k,v){
+  if(!data.logs[gid])data.logs[gid]={};
+  if(!data.logs[gid][date])data.logs[gid][date]={};
+  if(!data.logs[gid][date][mid])data.logs[gid][date][mid]={};
+  if(!data.logs[gid][date][mid][mo])data.logs[gid][date][mid][mo]={status:'',note:''};
+  data.logs[gid][date][mid][mo][k]=v;scheduleSave();
+}
+function getPonct(gid,date){
+  if(!data.logs[gid])data.logs[gid]={};
+  if(!data.logs[gid][date])data.logs[gid][date]={};
+  if(!data.logs[gid][date]['_ponct'])data.logs[gid][date]['_ponct']=[];
+  return data.logs[gid][date]['_ponct'];
+}
+function cycle(s){const c=['','ok','refused','partial'];return c[(c.indexOf(s)+1)%c.length];}
+function sIcon(s){return s==='ok'?'✓':s==='partial'?'~':s==='refused'?'✕':'';}
+function sLabel(s){return s==='ok'?'Pris':s==='partial'?'Partiel':s==='refused'?'Refusé':'–';}
+
+// SEARCH
+function runSearch(){
+  const sq=ui.searchQ.toLowerCase().trim(),gf=ui.searchGirl,mf=ui.searchMed.toLowerCase().trim();
+  if(!sq&&!gf&&!mf)return null;
+  let res=[];
+  data.girls.forEach(g=>{
+    if(gf&&g.id!==gf)return;
+    const logs=data.logs[g.id]||{};
+    Object.keys(logs).sort().reverse().forEach(date=>{
+      if(sq&&!fmtDate(date).toLowerCase().includes(sq)&&!date.includes(sq))return;
+      (g.meds||[]).forEach(m=>{
+        if(mf&&!m.name.toLowerCase().includes(mf))return;
+        m.moments.forEach(mo=>{const log=logs[date]?.[m.id]?.[mo];if(log&&log.status)res.push({date,gid:g.id,gname:g.name,med:m.name,dosage:m.dosage,mo,status:log.status,note:log.note});});
+      });
+      (logs[date]?.['_ponct']||[]).forEach(p=>{if(mf&&!p.name.toLowerCase().includes(mf))return;if(p.status)res.push({date,gid:g.id,gname:g.name,med:p.name+'*',dosage:p.dosage,mo:'ponctuel',status:p.status,note:p.motif});});
+    });
+  });
+  return res;
+}
+
+function renderSearch(){
+  const meds=[...new Set(data.girls.flatMap(g=>(g.meds||[]).map(m=>m.name)))];
+  let h='<div class="card"><div class="card-title">Recherche</div><div class="search-bar">';
+  h+='<input class="s-inp" placeholder="Date (ex: 15 avril…)" value="'+ui.searchQ+'" oninput="ui.searchQ=this.value;renderPanels()"/>';
+  h+='<select class="s-select" onchange="ui.searchGirl=this.value;renderPanels()"><option value="">Toutes les jeunes</option>';
+  data.girls.filter(g=>!g.archived).forEach(g=>{h+='<option value="'+g.id+'"'+(ui.searchGirl===g.id?' selected':'')+'>'+g.name+'</option>';});
+  h+='</select><select class="s-select" onchange="ui.searchMed=this.value;renderPanels()"><option value="">Tous les médicaments</option>';
+  meds.forEach(n=>{h+='<option value="'+n+'"'+(ui.searchMed===n?' selected':'')+'>'+n+'</option>';});
+  h+='</select><button class="btn" onclick="ui.searchQ=\'\';ui.searchGirl=\'\';ui.searchMed=\'\';renderPanels()">Effacer</button></div>';
+  const res=runSearch();
+  if(res!==null){
+    if(!res.length)h+='<p style="font-size:13px;color:#999;padding:.5rem 0">Aucun résultat.</p>';
+    else{
+      h+='<div style="margin-top:.75rem">';
+      res.slice(0,50).forEach(r=>{h+='<div class="sr-row" onclick="jumpTo(\''+q(r.gid)+'\',\''+r.date+'\')"><span class="sr-date">'+fmtDate(r.date)+'</span><span class="sr-girl">'+r.gname+'</span><span style="flex:1;font-size:13px">'+r.med+(r.dosage?' '+r.dosage:'')+' – '+r.mo+'</span><span class="s-pill s-'+r.status+'">'+sLabel(r.status)+'</span>'+(r.note?'<span style="font-size:12px;color:#888">'+r.note+'</span>':'')+'</div>';});
+      h+='</div>';
+    }
+  }
+  return h+'</div>';
+}
+
+// ARCHIVE MENSUELLE
+function renderArchive(g){
+  const logs=data.logs[g.id]||{};
+  const allDates=Object.keys(logs).sort().reverse();
+  const months=[...new Set(allDates.filter(d=>isLocked(d)).map(d=>monthOf(d)))].sort().reverse();
+  if(!months.length)return '<p style="font-size:13px;color:#999">Aucune archive.</p>';
+  const sel=ui.archMonth[g.id]||months[0];
+  let h='<div class="month-tabs">'+months.map(m=>'<button class="m-tab'+(m===sel?' active':'')+'" onclick="ui.archMonth[\''+q(g.id)+'\']= \''+m+'\';render()">'+monthLabel(m)+'</button>').join('')+'</div>';
+  allDates.filter(d=>monthOf(d)===sel).sort().reverse().forEach(date=>{
+    let entries='';
+    (g.meds||[]).forEach(m=>{m.moments.forEach(mo=>{const log=logs[date]?.[m.id]?.[mo];if(log&&log.status)entries+='<div class="arch-entry"><span style="flex:1">'+m.name+(m.dosage?' '+m.dosage:'')+' – '+mo+'</span><span class="s-pill s-'+log.status+'">'+sLabel(log.status)+'</span>'+(log.note?'<span style="font-size:12px;color:#888">'+log.note+'</span>':'')+'</div>';});});
+    (logs[date]?.['_ponct']||[]).forEach(p=>{if(p.status)entries+='<div class="arch-entry"><span style="flex:1">'+p.name+(p.dosage?' '+p.dosage:'')+' <em>(ponctuel)</em>'+(p.motif?' · '+p.motif:'')+'</span><span class="s-pill s-'+p.status+'">'+sLabel(p.status)+'</span></div>';});
+    if(entries)h+='<div class="arch-day"><div class="arch-day-title">'+fmtDate(date)+'</div>'+entries+'</div>';
+  });
+  return h;
+}
+
+// PANEL
+function renderPanel(g){
+  const date=curDate[g.id]||todayStr();
+  const locked=isLocked(date);
+  const ordos=g.ordos||[];
+  const actives=ordos.filter(o=>o.active);
+  const archived=ordos.filter(o=>!o.active);
+  const poncts=getPonct(g.id,date);
+  const gid=q(g.id);
+  let h='<div>';
+
+  // Rename
+  if(ui.showRename[g.id])h+='<div class="form-box" style="margin-bottom:1rem"><div class="form-row"><span class="f-label">Prénom</span><input class="f-inp" id="ren-'+gid+'" value="'+g.name+'"/><button class="btn btn-purple" onclick="doRename(\''+gid+'\')">OK</button><button class="btn" onclick="ui.showRename[\''+gid+'\']=false;render()">Annuler</button></div></div>';
+
+  // Ordonnances
+  h+='<div class="card"><div class="card-title">Ordonnances en cours ('+actives.length+')</div>';
+  if(!actives.length)h+='<p style="font-size:13px;color:#999;margin-bottom:.75rem">Aucune ordonnance active.</p>';
+  actives.forEach(o=>{
+    const idx=ordos.indexOf(o);
+    const pdfBtn=o.pdfData?'<button class="icon-btn" title="Voir le PDF" onclick="viewPdf(\''+gid+'\','+idx+')">📄</button>':'<label class="icon-btn" title="Ajouter un PDF" style="cursor:pointer">📎<input type="file" accept="application/pdf" style="display:none" onchange="uploadPdf(\''+gid+'\','+idx+',this)"/></label>';
+    h+='<div class="ordo-row active-o"><div class="ordo-text"><div class="ordo-name">'+o.name+'</div><div class="ordo-meta">Dr '+(o.medecin||'–')+' · depuis le '+fmtShort(o.date)+(o.expireDate?' · expire le '+fmtShort(o.expireDate):'')+'</div></div><span class="pill pill-purple">En cours</span>'+pdfBtn+'<button class="icon-btn" onclick="toggleOrdo(\''+gid+'\','+idx+')">↓</button><button class="icon-btn" style="color:#c0392b" onclick="delOrdo(\''+gid+'\','+idx+')">✕</button></div>';
+  });
+  if(archived.length){
+    h+='<button class="btn" style="font-size:12px;margin-bottom:6px" onclick="ui.showArch[\''+gid+'\']=!ui.showArch[\''+gid+'\'];render()">'+(ui.showArch[g.id]?'▲ Masquer':'▼ Voir')+' archivées ('+archived.length+')</button>';
+    if(ui.showArch[g.id])archived.forEach(o=>{const idx=ordos.indexOf(o);h+='<div class="ordo-row"><div class="ordo-text"><div class="ordo-name" style="color:#888">'+o.name+'</div><div class="ordo-meta">Dr '+(o.medecin||'–')+' · '+fmtShort(o.date)+'</div></div><span class="pill pill-gray">Archivée</span><button class="icon-btn" onclick="toggleOrdo(\''+gid+'\','+idx+')">↑</button><button class="icon-btn" style="color:#c0392b" onclick="delOrdo(\''+gid+'\','+idx+')">✕</button></div>';});
+  }
+  h+='<button class="btn btn-purple" style="margin-top:8px" onclick="ui.showOrdoForm[\''+gid+'\']=!ui.showOrdoForm[\''+gid+'\'];render()">+ Ordonnance</button>';
+  if(ui.showOrdoForm[g.id])h+='<div class="form-box"><div class="form-row"><span class="f-label">Nom</span><input class="f-inp" id="ofn-'+gid+'" placeholder="ex: Généraliste…"/></div><div class="form-row"><span class="f-label">Médecin</span><input class="f-inp" id="ofm-'+gid+'" placeholder="Dr Dupont"/></div><div class="form-row"><span class="f-label">Début</span><input class="f-inp" type="date" id="ofd-'+gid+'" value="'+todayStr()+'"/></div><div class="form-row"><span class="f-label">PDF</span><input type="file" id="ofpdf-'+gid+'" accept="application/pdf" style="font-size:13px;flex:1"/></div><div class="form-row"><button class="btn btn-purple" onclick="addOrdo(\''+gid+'\')">Enregistrer</button><button class="btn" onclick="ui.showOrdoForm[\''+gid+'\']=false;render()">Annuler</button></div></div>';
+  h+='</div>';
+
+  // Date nav
+  h+='<div class="date-nav"><button class="nav-btn" onclick="shift(\''+gid+'\',-1)">‹</button><span class="date-label">'+fmtDate(date)+'</span><button class="nav-btn" onclick="shift(\''+gid+'\',1)">›</button><input type="date" class="date-pick" value="'+date+'" onchange="pickDate(\''+gid+'\',this.value)"/><button class="today-btn" onclick="goToday(\''+gid+'\')">Aujourd\'hui</button></div>';
+  if(locked)h+='<div class="locked-banner">🔒 Mois archivé — consultation uniquement.</div>';
+
+  // Médicaments réguliers
+  if(!g.meds||!g.meds.length)h+='<div class="empty">Aucun médicament enregistré.</div>';
+  else{
+    h+='<div class="card">';
+    g.meds.forEach(m=>{
+      const mid=q(m.id);
+      const today=todayStr();
+      let alerteMed='';
+      if(m.dateFin){
+        const diff=Math.ceil((new Date(m.dateFin+'T12:00:00')-new Date(today+'T12:00:00'))/(1000*60*60*24));
+        if(diff<0)alerteMed=' <span style="background:#fde8e8;color:#8b1a1a;font-size:11px;padding:2px 8px;border-radius:20px">⚠️ Prescription expirée</span>';
+        else if(diff<=3)alerteMed=' <span style="background:#fdf0dc;color:#7a4f00;font-size:11px;padding:2px 8px;border-radius:20px">⏰ '+diff+' jour'+(diff>1?'s':'')+' restant'+(diff>1?'s':'')+'</span>';
+      }
+      const hasPartial=m.moments.some(mo=>getLog(g.id,date,m.id,mo).status==='partial');
+      const note=m.moments.reduce((acc,mo)=>acc||getLog(g.id,date,m.id,mo).note,'');
+      h+='<div class="med-row"><div class="med-top"><div class="med-name-txt">'+m.name+(m.dosage?'<br><span class="med-dosage">'+m.dosage+'</span>':'')+(m.dateFin?'<br><span style="font-size:11px;color:#888">Fin : '+fmtShort(m.dateFin)+'</span>':'')+alerteMed+'</div><div class="prise-group">';
+      m.moments.forEach(mo=>{const log=getLog(g.id,date,m.id,mo);h+='<div class="prise-slot"><span class="prise-label">'+mo+'</span><button class="p-btn '+log.status+'" '+(locked?'disabled':'')+' onclick="toggleStatus(\''+gid+'\',\''+mid+'\',\''+mo+'\')">'+sIcon(log.status)+'</button></div>';});
+      h+='</div>'+(!locked?'<button class="del-btn" onclick="delMed(\''+gid+'\',\''+mid+'\')">×</button>':'')+'</div>';
+      if(hasPartial)h+='<div class="note-wrap"><input class="note-inp" '+(locked?'disabled':'')+' placeholder="Précise ce qui a été pris partiellement…" value="'+(note||'')+'" oninput="saveNote(\''+gid+'\',\''+mid+'\',this.value)"/></div>';
+      h+='</div>';
+    });
+    h+='</div>';
+  }
+
+  // Ponctuels
+  if(poncts.length){
+    h+='<div class="card card-yellow"><div class="card-title card-title-yellow">Ponctuels du jour</div>';
+    poncts.forEach((p,i)=>{h+='<div class="med-row"><div class="med-top"><div class="med-name-txt">'+p.name+(p.dosage?'<br><span class="med-dosage">'+p.dosage+'</span>':'')+(p.motif?'<br><span class="med-motif">Motif : '+p.motif+'</span>':'')+'</div><div class="prise-group"><div class="prise-slot"><span class="prise-label">Pris</span><button class="p-btn '+(p.status||'')+'" '+(locked?'disabled':'')+' onclick="togglePonct(\''+gid+'\',\''+date+'\','+i+')">'+sIcon(p.status||'')+'</button></div></div>'+(!locked?'<button class="del-btn" onclick="delPonct(\''+gid+'\',\''+date+'\','+i+')">×</button>':'')+'</div></div>';});
+    h+='</div>';
+  }
+
+  // Boutons ajouter
+  if(!locked){
+    h+='<div style="margin-bottom:1rem"><button class="btn btn-purple" onclick="ui.showMedForm[\''+gid+'\']=!ui.showMedForm[\''+gid+'\'];ui.showPonctForm[\''+gid+'\']=false;render()">+ Médicament</button><button class="btn btn-yellow" onclick="ui.showPonctForm[\''+gid+'\']=!ui.showPonctForm[\''+gid+'\'];ui.showMedForm[\''+gid+'\']=false;render()">+ Ponctuel</button></div>';
+    if(ui.showMedForm[g.id])h+='<div class="form-box"><div class="form-row"><span class="f-label">Nom</span><input class="f-inp" id="mfn-'+gid+'" placeholder="ex: Sertraline"/></div><div class="form-row"><span class="f-label">Dosage</span><input class="f-inp" id="mfd-'+gid+'" placeholder="ex: 50mg"/></div><div class="form-row"><span class="f-label">Prise</span><div class="radio-group"><label class="radio-opt"><input type="radio" name="mo-'+gid+'" value="matin"> Matin</label><label class="radio-opt"><input type="radio" name="mo-'+gid+'" value="soir"> Soir</label><label class="radio-opt"><input type="radio" name="mo-'+gid+'" value="les deux" checked> Matin et soir</label></div></div><div class="form-row"><span class="f-label">Date fin</span><input class="f-inp" type="date" id="mfdf-'+gid+'" /></div><div class="form-row"><span class="f-label">Durée</span><input class="f-inp" type="number" id="mfdu-'+gid+'" placeholder="Nb de jours (si pas de date de fin)" min="1" style="max-width:220px"/></div><div class="form-row"><button class="btn btn-purple" onclick="addMed(\''+gid+'\')">Enregistrer</button><button class="btn" onclick="ui.showMedForm[\''+gid+'\']=false;render()">Annuler</button></div></div>';
+    if(ui.showPonctForm[g.id])h+='<div class="form-box form-box-yellow"><div class="form-row"><span class="f-label">Nom</span><input class="f-inp" id="pfn-'+gid+'" placeholder="ex: Doliprane"/></div><div class="form-row"><span class="f-label">Dosage</span><input class="f-inp" id="pfd-'+gid+'" placeholder="ex: 1000mg"/></div><div class="form-row"><span class="f-label">Motif</span><input class="f-inp" id="pfm-'+gid+'" placeholder="ex: Mal de tête, fièvre…"/></div><div class="form-row"><button class="btn btn-purple" onclick="addPonct(\''+gid+'\',\''+date+'\')">Enregistrer</button><button class="btn" onclick="ui.showPonctForm[\''+gid+'\']=false;render()">Annuler</button></div></div>';
+  }
+
+  // Actions secondaires
+  h+='<div style="margin-bottom:1rem"><button class="btn" onclick="ui.showArchive[\''+gid+'\']=!ui.showArchive[\''+gid+'\'];render()">📁 Archives</button><button class="btn" onclick="ui.showRename[\''+gid+'\']=!ui.showRename[\''+gid+'\'];render()">Renommer</button><button class="btn btn-danger" onclick="archiveGirl(\''+gid+'\')">Archiver la jeune</button></div>';
+  if(ui.showArchive[g.id])h+='<div class="card"><div class="card-title">Archives mensuelles</div>'+renderArchive(g)+'</div>';
+  return h+'</div>';
+}
+
+function renderTabs(){
+  const el=document.getElementById('tabs');if(!el)return;el.innerHTML='';
+  data.girls.filter(g=>!g.archived).forEach(g=>{
+    const t=document.createElement('button');t.className='tab'+(g.id===cur?' active':'');t.textContent=g.name;t.onclick=()=>{cur=g.id;render();};el.appendChild(t);
+  });
+  const arch=data.girls.filter(g=>g.archived);
+  if(arch.length){const a=document.createElement('button');a.className='tab'+(cur==='_arch'?' active':'');a.textContent='📁 Archivées ('+arch.length+')';a.onclick=()=>{cur='_arch';render();};el.appendChild(a);}
+  const add=document.createElement('button');add.className='tab-add';add.textContent='+ Ajouter une jeune';add.onclick=()=>{ui.showAddGirl=!ui.showAddGirl;renderPanels();};el.appendChild(add);
+}
+
+function renderPanels(){
+  const el=document.getElementById('panels');if(!el)return;el.innerHTML='';
+  if(ui.loading){el.innerHTML='<div class="empty" style="margin-top:2rem">Chargement…</div>';return;}
+  if(ui.error){el.innerHTML='<div class="empty" style="margin-top:2rem;color:#c0392b">'+ui.error+'</div>';return;}
+  el.insertAdjacentHTML('beforeend',renderSearch());
+  if(ui.showAddGirl)el.insertAdjacentHTML('beforeend','<div class="form-box" style="margin-bottom:1rem"><div class="form-row"><span class="f-label">Prénom</span><input class="f-inp" id="new-girl-name" placeholder="Prénom de la jeune"/><button class="btn btn-purple" onclick="addGirl()">Ajouter</button><button class="btn" onclick="ui.showAddGirl=false;render()">Annuler</button></div></div>');
+  if(cur==='_arch'){
+    let h='<div class="card"><div class="card-title">Jeunes archivées</div>';
+    data.girls.filter(g=>g.archived).forEach(g=>{h+='<div style="padding:8px 0;border-bottom:1px solid #eee;font-size:14px">'+g.name+'</div>';});
+    el.insertAdjacentHTML('beforeend',h+'</div>');return;
+  }
+  if(!data.girls.filter(g=>!g.archived).length){el.insertAdjacentHTML('beforeend','<div class="empty" style="margin-top:2rem">Aucune jeune enregistrée.<br>Clique sur <b>+ Ajouter une jeune</b> pour commencer.</div>');return;}
+  const g=girl(cur);if(g)el.insertAdjacentHTML('beforeend',renderPanel(g));
+}
+
+function render(){renderTabs();renderPanels();}
+
+// ACTIONS
+window.shift=(id,n)=>{curDate[id]=addDays(curDate[id]||todayStr(),n);render();};
+window.goToday=(id)=>{curDate[id]=todayStr();render();};
+window.pickDate=(id,v)=>{if(v){curDate[id]=v;render();}};
+window.jumpTo=(gid,date)=>{cur=gid;curDate[gid]=date;ui.searchQ='';ui.searchGirl='';ui.searchMed='';render();};
+
+function addGirl(){
+  const inp=document.getElementById('new-girl-name');const name=inp?.value?.trim();if(!name)return;
+  const id='g'+Date.now();data.girls.push({id,name,ordos:[],meds:[]});
+  curDate[id]=todayStr();cur=id;ui.showAddGirl=false;scheduleSave();render();
+}
+window.addGirl=addGirl;
+
+window.archiveGirl=(id)=>{if(!confirm('Archiver cette jeune ? Son historique sera conservé.'))return;girl(id).archived=true;cur=data.girls.find(g=>!g.archived)?.id||null;scheduleSave();render();};
+window.doRename=(id)=>{const v=document.getElementById('ren-'+id)?.value?.trim();if(!v)return;girl(id).name=v;ui.showRename[id]=false;scheduleSave();render();};
+
+window.addOrdo=async(id)=>{
+  const name=document.getElementById('ofn-'+id)?.value?.trim();if(!name)return;
+  const medecin=document.getElementById('ofm-'+id)?.value?.trim()||'';
+  const date=document.getElementById('ofd-'+id)?.value||todayStr();
+  const fileInput=document.getElementById('ofpdf-'+id);
+  const file=fileInput?.files?.[0];
+  let pdfPath='';
+  if(file){
+    const path=id+'/'+Date.now()+'_'+file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
+    const res=await fetch(SB_URL+'/storage/v1/object/ordonnances/'+path,{method:'POST',headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':file.type},body:file});
+    if(res.ok)pdfPath=path;
+  }
+  const expireDate=addDays(date,365);
+  const g=girl(id);if(!g.ordos)g.ordos=[];
+  g.ordos.push({name,medecin,date,active:true,pdfPath,expireDate});
+  ui.showOrdoForm[id]=false;scheduleSave();render();
+};
+
+window.viewPdf=(gid,idx)=>{
+  const g=girl(gid);
+  const o=g.ordos[idx];
+  if(!o||!o.pdfData){alert('PDF non disponible.');return;}
+  const win=window.open();
+  win.document.write('<iframe src="'+o.pdfData+'" width="100%" height="100%" style="border:none;margin:0;padding:0"></iframe>');
+};
+
+window.uploadPdf=async(gid,idx,input)=>{
+  const file=input.files?.[0];if(!file)return;
+  if(file.size>4*1024*1024){alert('PDF trop lourd (max 4 Mo).');return;}
+  const reader=new FileReader();
+  reader.onload=async(e)=>{
+    const g=girl(gid);const o=g.ordos[idx];
+    o.pdfData=e.target.result;
+    const payload=JSON.stringify({data:JSON.stringify(data)});
+    if(rowId){await fetch(SB_URL+'/rest/v1/medics?id=eq.'+rowId,{method:'PATCH',headers:{...HDR,'Prefer':'return=minimal'},body:payload});}
+    else{const r=await fetch(SB_URL+'/rest/v1/medics',{method:'POST',headers:{...HDR,'Prefer':'return=representation'},body:payload});const rows=await r.json();if(rows&&rows[0])rowId=rows[0].id;}
+    render();
+  };
+  reader.readAsDataURL(file);
+};
+window.delOrdo=(id,idx)=>{if(!confirm('Supprimer ?'))return;girl(id).ordos.splice(idx,1);scheduleSave();render();};
+
+window.toggleStatus=(gid,mid,mo)=>{
+  const date=curDate[gid]||todayStr();if(isLocked(date))return;
+  setLog(gid,date,mid,mo,'status',cycle(getLog(gid,date,mid,mo).status));render();
+};
+window.saveNote=(gid,mid,val)=>{
+  const date=curDate[gid]||todayStr();if(isLocked(date))return;
+  girl(gid).meds.find(m=>m.id===mid)?.moments.forEach(mo=>setLog(gid,date,mid,mo,'note',val));
+};
+
+window.addMed=(id)=>{
+  const name=document.getElementById('mfn-'+id)?.value?.trim();if(!name)return;
+  const dosage=document.getElementById('mfd-'+id)?.value?.trim()||'';
+  const sel=document.querySelector('input[name="mo-'+id+'"]:checked')?.value||'les deux';
+  const moments=sel==='matin'?['matin']:sel==='soir'?['soir']:['matin','soir'];
+  const dateFinVal=document.getElementById('mfdf-'+id)?.value||'';
+  const dureeVal=parseInt(document.getElementById('mfdu-'+id)?.value)||0;
+  let dateFin=dateFinVal;
+  if(!dateFin&&dureeVal>0){const d=new Date(todayStr()+'T12:00:00');d.setDate(d.getDate()+dureeVal);dateFin=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+  const g=girl(id);if(!g.meds)g.meds=[];
+  g.meds.push({id:'m'+Date.now(),name,dosage,moments,dateFin});
+  ui.showMedForm[id]=false;scheduleSave();render();
+};
+
+window.delMed=(gid,mid)=>{if(!confirm('Supprimer ?'))return;girl(gid).meds=girl(gid).meds.filter(m=>m.id!==mid);scheduleSave();render();};
+
+window.addPonct=(gid,date)=>{
+  const name=document.getElementById('pfn-'+gid)?.value?.trim();if(!name)return;
+  const dosage=document.getElementById('pfd-'+gid)?.value?.trim()||'';
+  const motif=document.getElementById('pfm-'+gid)?.value?.trim()||'';
+  getPonct(gid,date).push({name,dosage,motif,status:''});
+  ui.showPonctForm[gid]=false;scheduleSave();render();
+};
+window.togglePonct=(gid,date,i)=>{if(isLocked(date))return;const p=getPonct(gid,date);p[i].status=cycle(p[i].status||'');scheduleSave();render();};
+window.delPonct=(gid,date,i)=>{getPonct(gid,date).splice(i,1);scheduleSave();render();};
+
+initApp();
+</script>
+</body>
+</html>
