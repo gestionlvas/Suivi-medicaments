@@ -476,6 +476,7 @@ window.uploadPdf=async(gid,idx,input)=>{
   };
   reader.readAsDataURL(file);
 };
+window.toggleOrdo=(id,idx)=>{const o=girl(id).ordos[idx];if(!o)return;o.active=!o.active;scheduleSave();render();};
 window.delOrdo=(id,idx)=>{if(!confirm('Supprimer ?'))return;girl(id).ordos.splice(idx,1);scheduleSave();render();};
 window.saveOrdoEdit=(id,idx)=>{const o=girl(id).ordos[idx];if(!o)return;const med=document.getElementById('oem-'+id+'-'+idx)?.value?.trim();const dat=document.getElementById('oed-'+id+'-'+idx)?.value;const exp=document.getElementById('oee-'+id+'-'+idx)?.value;if(med!==undefined)o.medecin=med;if(dat)o.date=dat;if(exp)o.expireDate=exp;ui.showOrdoEdit[id+'-'+idx]=false;scheduleSave();render();};
 
