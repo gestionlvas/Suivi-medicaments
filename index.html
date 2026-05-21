@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#6b2d82">
 <meta name="robots" content="noindex, nofollow">
-<title>Suivi m√©dicaments ‚Äî La Maison</title>
+<title>Suivi médicaments — La Maison</title>
 <style>
 :root {
   --c-primary: #6b2d82;
@@ -394,9 +394,9 @@ button { cursor: pointer; }
     <path d="M40,32.5 C40,32.5 36.5,30 36.5,33 C36.5,35 40,38 40,38 C40,38 43.5,35 43.5,33 C43.5,30 40,32.5 Z" fill="#6b2d82"/>
   </svg>
   <div style="font-size:24px;font-weight:700;color:#6b2d82">LA MAISON</div>
-  <div style="font-size:12px;color:#3b8fc4;text-transform:uppercase;letter-spacing:.08em">Suivi m√©dicaments ¬∑ LVA</div>
+  <div style="font-size:12px;color:#3b8fc4;text-transform:uppercase;letter-spacing:.08em">Suivi médicaments · LVA</div>
   <form class="login-box" id="login-form">
-    <div style="font-size:14px;color:#4b5563;margin-bottom:.75rem;text-align:center">Acc√®s r√©serv√© √† l'√©quipe</div>
+    <div style="font-size:14px;color:#4b5563;margin-bottom:.75rem;text-align:center">Accès réservé à l'équipe</div>
     <input type="password" id="mdp-input" class="login-inp" placeholder="Mot de passe" autocomplete="current-password" autofocus/>
     <button type="submit" class="login-btn">Connexion</button>
     <div id="mdp-error" class="login-err"></div>
@@ -417,15 +417,15 @@ button { cursor: pointer; }
     </svg>
     <div class="app-header-text">
       <div class="app-title">LA MAISON</div>
-      <div class="app-subtitle">Suivi m√©dicaments ¬∑ LVA</div>
+      <div class="app-subtitle">Suivi médicaments · LVA</div>
     </div>
     <div class="app-actions no-print">
-      <button class="btn" id="btn-settings" title="Configurer la synchronisation cloud">‚öôÔ∏è R√©glages</button>
-      <button class="btn" id="btn-import" title="Importer un fichier de sauvegarde">‚¨ÜÔ∏è Importer</button>
-      <button class="btn" id="btn-export" title="Exporter toutes les donn√©es (JSON)">‚¨áÔ∏è Sauvegarde</button>
-      <button class="btn" id="btn-export-csv" title="Exporter la jeune en CSV">üìä CSV</button>
-      <button class="btn" id="btn-print" title="Imprimer la fiche du jour">üñ®Ô∏è Imprimer</button>
-      <button class="btn btn-danger" id="btn-logout" title="Se d√©connecter">üîí Quitter</button>
+      <button class="btn" id="btn-settings" title="Configurer la synchronisation cloud">⚙️ Réglages</button>
+      <button class="btn" id="btn-import" title="Importer un fichier de sauvegarde">⬆️ Importer</button>
+      <button class="btn" id="btn-export" title="Exporter toutes les données (JSON)">⬇️ Sauvegarde</button>
+      <button class="btn" id="btn-export-csv" title="Exporter la jeune en CSV">📊 CSV</button>
+      <button class="btn" id="btn-print" title="Imprimer la fiche du jour">🖨️ Imprimer</button>
+      <button class="btn btn-danger" id="btn-logout" title="Se déconnecter">🔒 Quitter</button>
     </div>
   </header>
   <div id="banners"></div>
@@ -438,11 +438,11 @@ button { cursor: pointer; }
 <!-- SETTINGS MODAL -->
 <div id="settings-modal" class="modal-backdrop" style="display:none">
   <div class="modal">
-    <h2>‚öôÔ∏è Synchronisation cloud</h2>
+    <h2>⚙️ Synchronisation cloud</h2>
     <p style="font-size:13px">
-      Active la synchronisation pour que toute l'√©quipe voie les modifications en temps r√©el
+      Active la synchronisation pour que toute l'équipe voie les modifications en temps réel
       (polling toutes les 15 s, fusion automatique des changements).<br>
-      <a href="https://jsonbin.io" target="_blank" rel="noopener" style="color:var(--c-primary)">Cr√©er un compte JSONBin gratuit ‚Üí</a>
+      <a href="https://jsonbin.io" target="_blank" rel="noopener" style="color:var(--c-primary)">Créer un compte JSONBin gratuit →</a>
     </p>
     <div class="form-row" style="margin-top:1rem">
       <span class="f-label">Bin ID</span>
@@ -464,14 +464,14 @@ button { cursor: pointer; }
     <details style="margin-top:1rem;font-size:12px;color:var(--c-muted)">
       <summary style="cursor:pointer">Comment configurer JSONBin ?</summary>
       <ol style="margin:.5rem 0 0 1rem;padding:0">
-        <li>Cr√©e un compte sur <b>jsonbin.io</b> (gratuit, 100k requ√™tes/mois).</li>
+        <li>Crée un compte sur <b>jsonbin.io</b> (gratuit, 100k requêtes/mois).</li>
         <li>Dans le menu <b>API Keys</b>, copie la <b>X-Master-Key</b> (commence par <code>$2a$10$</code>).</li>
-        <li>Cr√©e un nouveau bin (n'importe quel JSON, ex: <code>{}</code>).</li>
-        <li>Copie son <b>Bin ID</b> (24 caract√®res dans l'URL).</li>
+        <li>Crée un nouveau bin (n'importe quel JSON, ex: <code>{}</code>).</li>
+        <li>Copie son <b>Bin ID</b> (24 caractères dans l'URL).</li>
         <li>Colle les deux ici, coche "Activer", clique "Enregistrer".</li>
-        <li>Partage ces 2 valeurs avec ton √©quipe (chacun les saisit une fois sur son navigateur).</li>
+        <li>Partage ces 2 valeurs avec ton équipe (chacun les saisit une fois sur son navigateur).</li>
       </ol>
-      <p style="margin-top:.5rem"><b>‚ö†Ô∏è RGPD :</b> JSONBin h√©berge aux USA. Acceptable en MVP, √† migrer vers un backend EU (Supabase EU, Cloudflare Worker) avant mont√©e en charge.</p>
+      <p style="margin-top:.5rem"><b>⚠️ RGPD :</b> JSONBin héberge aux USA. Acceptable en MVP, à migrer vers un backend EU (Supabase EU, Cloudflare Worker) avant montée en charge.</p>
     </details>
   </div>
 </div>
@@ -483,7 +483,7 @@ button { cursor: pointer; }
 const PASSWORD_SHA256 = '6239d9a961080f1345cc68759060442737e63601ee3ada842117901ac49f77e9'; // 'Avril26'
 const DATE_MDP = '2026-04-27';
 const INACTIVITY_MIN = 30;
-const SEED_GIRLS = ['La√´titia','Doha','Rafa√´lle','Oph√©lie','Camille','Lilou'];
+const SEED_GIRLS = ['Laëtitia','Doha','Rafaëlle','Ophélie','Camille','Lilou'];
 const LOCAL_KEY = 'suivi-medicaments-v2';
 const LOCAL_META_KEY = 'suivi-medicaments-meta';
 const IDB_NAME = 'suivi-medicaments-pdf';
@@ -492,14 +492,14 @@ const REMIND_EXPORT_HOURS = 24;
 const APP_VERSION = 2;
 
 const JOURS = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
-const MOIS = ['janvier','f√©vrier','mars','avril','mai','juin','juillet','ao√ªt','septembre','octobre','novembre','d√©cembre'];
+const MOIS = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
 
 // ============================================================
 // HELPERS
 // ============================================================
 function todayStr(){const n=new Date();return n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0')+'-'+String(n.getDate()).padStart(2,'0');}
 function fmtDate(d){const dt=new Date(d+'T12:00:00');return JOURS[dt.getDay()]+' '+dt.getDate()+' '+MOIS[dt.getMonth()]+' '+dt.getFullYear();}
-function fmtShort(d){if(!d)return '‚Äì';const dt=new Date(d+'T12:00:00');return String(dt.getDate()).padStart(2,'0')+'/'+String(dt.getMonth()+1).padStart(2,'0')+'/'+dt.getFullYear();}
+function fmtShort(d){if(!d)return '–';const dt=new Date(d+'T12:00:00');return String(dt.getDate()).padStart(2,'0')+'/'+String(dt.getMonth()+1).padStart(2,'0')+'/'+dt.getFullYear();}
 function addDays(s,n){const d=new Date(s+'T12:00:00');d.setDate(d.getDate()+n);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
 function monthOf(d){return d.slice(0,7);}
 function isLocked(date){return monthOf(date)<monthOf(todayStr());}
@@ -521,7 +521,7 @@ function fileToBase64(file){
   return new Promise((resolve,reject)=>{
     const r=new FileReader();
     r.onload=()=>resolve(r.result);
-    r.onerror=()=>reject(new Error('Lecture du fichier √©chou√©e'));
+    r.onerror=()=>reject(new Error('Lecture du fichier échouée'));
     r.readAsDataURL(file);
   });
 }
@@ -606,7 +606,7 @@ function logout(byInactivity){
   const inp=document.getElementById('mdp-input');
   if(inp){inp.value='';inp.focus();}
   const err=document.getElementById('mdp-error');
-  if(byInactivity&&err){err.textContent='Session expir√©e apr√®s '+INACTIVITY_MIN+' min d\'inactivit√©.';err.style.display='block';}
+  if(byInactivity&&err){err.textContent='Session expirée après '+INACTIVITY_MIN+' min d\'inactivité.';err.style.display='block';}
   else if(err){err.style.display='none';}
 }
 
@@ -691,9 +691,9 @@ async function loadData(){
 function showSaveStatus(state){
   const b=document.getElementById('sbar');if(!b)return;
   b.classList.remove('error','saved');
-  if(state==='saving'){b.textContent='Sauvegarde‚Ä¶';b.style.display='block';}
-  else if(state==='saved'){b.textContent='‚úì Enregistr√©';b.classList.add('saved');b.style.display='block';setTimeout(()=>{b.style.display='none';},900);}
-  else if(state==='error'){b.textContent='‚ö† Erreur';b.classList.add('error');b.style.display='block';}
+  if(state==='saving'){b.textContent='Sauvegarde…';b.style.display='block';}
+  else if(state==='saved'){b.textContent='✓ Enregistré';b.classList.add('saved');b.style.display='block';setTimeout(()=>{b.style.display='none';},900);}
+  else if(state==='error'){b.textContent='⚠ Erreur';b.classList.add('error');b.style.display='block';}
   else{b.style.display='none';}
 }
 
@@ -708,7 +708,7 @@ function saveData(immediate){
     }catch(e){
       console.error('saveData failed',e);
       showSaveStatus('error');
-      alert('Sauvegarde impossible. Le stockage est peut-√™tre plein. Exporte tes donn√©es imm√©diatement.');
+      alert('Sauvegarde impossible. Le stockage est peut-être plein. Exporte tes données immédiatement.');
     }
   };
   if(immediate){if(saveTimer){clearTimeout(saveTimer);saveTimer=null;}showSaveStatus('saving');doSave();return;}
@@ -736,8 +736,8 @@ function getPonct(gid,date){
 }
 
 function cycle(s){const c=['','ok','refused','partial'];return c[(c.indexOf(s)+1)%c.length];}
-function sIcon(s){return s==='ok'?'‚úì':s==='partial'?'~':s==='refused'?'‚úï':'';}
-function sLabel(s){return s==='ok'?'Pris':s==='partial'?'Partiel':s==='refused'?'Refus√©':'‚Äì';}
+function sIcon(s){return s==='ok'?'✓':s==='partial'?'~':s==='refused'?'✕':'';}
+function sLabel(s){return s==='ok'?'Pris':s==='partial'?'Partiel':s==='refused'?'Refusé':'–';}
 
 function nowMs(){return Date.now();}
 function nowIso(){return new Date().toISOString();}
@@ -945,7 +945,7 @@ function stopPolling(){if(pollTimer){clearInterval(pollTimer);pollTimer=null;}}
 // ============================================================
 async function attachPdf(file){
   if(file.size>5*1024*1024)throw new Error('PDF trop lourd (max 5 Mo).');
-  if(file.type!=='application/pdf')throw new Error('Seuls les PDF sont accept√©s.');
+  if(file.type!=='application/pdf')throw new Error('Seuls les PDF sont acceptés.');
   const id=uid('pdf');
   const dataUrl=await fileToBase64(file);
   await idbPut(id,dataUrl);
@@ -953,9 +953,9 @@ async function attachPdf(file){
 }
 async function openPdf(pdfId){
   const dataUrl=await idbGet(pdfId);
-  if(!dataUrl){alert('PDF introuvable. Il a peut-√™tre √©t√© supprim√©.');return;}
+  if(!dataUrl){alert('PDF introuvable. Il a peut-être été supprimé.');return;}
   const win=window.open('','_blank');
-  if(!win){alert('La fen√™tre a √©t√© bloqu√©e. Autorise les pop-ups pour voir le PDF.');return;}
+  if(!win){alert('La fenêtre a été bloquée. Autorise les pop-ups pour voir le PDF.');return;}
   win.document.write('<title>Ordonnance</title><style>html,body{margin:0;height:100%}</style><iframe src="'+esc(dataUrl)+'" style="width:100%;height:100vh;border:none" title="Ordonnance"></iframe>');
 }
 
@@ -986,7 +986,7 @@ async function exportAll(){
   }catch(e){
     console.error(e);
     showSaveStatus('error');
-    alert('Export √©chou√© : '+e.message);
+    alert('Export échoué : '+e.message);
   }
 }
 
@@ -999,9 +999,9 @@ async function importFromFile(file){
     alert('Fichier illisible. Est-ce bien un export JSON ?');return;
   }
   if(!payload||payload.app!=='suivi-medicaments'||!payload.data){
-    alert('Ce fichier ne semble pas √™tre un export de l\'appli.');return;
+    alert('Ce fichier ne semble pas être un export de l\'appli.');return;
   }
-  if(!confirm('Cet import va REMPLACER toutes les donn√©es actuelles ('+data.girls.length+' jeunes). Confirmer ?'))return;
+  if(!confirm('Cet import va REMPLACER toutes les données actuelles ('+data.girls.length+' jeunes). Confirmer ?'))return;
 
   await idbClear();
   data=payload.data;
@@ -1017,30 +1017,30 @@ async function importFromFile(file){
   saveData(true);
   setMeta({lastImportedAt:new Date().toISOString()});
   render();
-  alert('Import r√©ussi ‚úì\n'+data.girls.length+' jeune(s) charg√©e(s).');
+  alert('Import réussi ✓\n'+data.girls.length+' jeune(s) chargée(s).');
 }
 
 function exportCSV(){
   const g=girl(cur);
-  if(!g){alert('S√©lectionne d\'abord une jeune.');return;}
-  const rows=[['Date','Type','M√©dicament','Dosage','Moment','Statut','Note/Motif','Horodatage']];
+  if(!g){alert('Sélectionne d\'abord une jeune.');return;}
+  const rows=[['Date','Type','Médicament','Dosage','Moment','Statut','Note/Motif','Horodatage']];
   const logs=data.logs[g.id]||{};
   Object.keys(logs).sort().forEach(date=>{
     (g.meds||[]).forEach(m=>{
       m.moments.forEach(mo=>{
         const l=logs[date]?.[m.id]?.[mo];
-        if(l&&l.status)rows.push([date,'r√©gulier',m.name,m.dosage||'',mo,sLabel(l.status),l.note||'',l._ts||'']);
+        if(l&&l.status)rows.push([date,'régulier',m.name,m.dosage||'',mo,sLabel(l.status),l.note||'',l._ts||'']);
       });
     });
     (logs[date]?._ponct||[]).forEach(p=>{
-      if(p.status)rows.push([date,'ponctuel',p.name,p.dosage||'','‚Äî',sLabel(p.status),p.motif||'','']);
+      if(p.status)rows.push([date,'ponctuel',p.name,p.dosage||'','—',sLabel(p.status),p.motif||'','']);
     });
   });
   const csv=rows.map(r=>r.map(c=>{
     const s=String(c==null?'':c);
     return /[",;\n]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s;
   }).join(';')).join('\n');
-  const blob=new Blob(['Ôªø'+csv],{type:'text/csv;charset=utf-8'});
+  const blob=new Blob(['﻿'+csv],{type:'text/csv;charset=utf-8'});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');
   a.href=url;
@@ -1077,29 +1077,29 @@ function runSearch(){
 function renderSearch(){
   const meds=[...new Set(data.girls.flatMap(g=>(g.meds||[]).map(m=>m.name)))].sort();
   let h='<div class="card no-print"><div class="card-title">Recherche</div><div class="search-bar">';
-  h+='<input class="s-inp" id="srch-q" placeholder="Date (ex: 15 avril‚Ä¶)" value="'+esc(ui.searchQ)+'"/>';
+  h+='<input class="s-inp" id="srch-q" placeholder="Date (ex: 15 avril…)" value="'+esc(ui.searchQ)+'"/>';
   h+='<select class="s-select" id="srch-g"><option value="">Toutes les jeunes</option>';
   data.girls.filter(g=>!g.archived).forEach(g=>{
     h+='<option value="'+esc(g.id)+'"'+(ui.searchGirl===g.id?' selected':'')+'>'+esc(g.name)+'</option>';
   });
-  h+='</select><select class="s-select" id="srch-m"><option value="">Tous les m√©dicaments</option>';
+  h+='</select><select class="s-select" id="srch-m"><option value="">Tous les médicaments</option>';
   meds.forEach(n=>{h+='<option value="'+esc(n)+'"'+(ui.searchMed===n?' selected':'')+'>'+esc(n)+'</option>';});
   h+='</select><button class="btn" id="srch-clear">Effacer</button></div>';
   const res=runSearch();
   if(res!==null){
-    if(!res.length)h+='<p style="font-size:13px;color:#9ca3af;padding:.5rem 0">Aucun r√©sultat.</p>';
+    if(!res.length)h+='<p style="font-size:13px;color:#9ca3af;padding:.5rem 0">Aucun résultat.</p>';
     else{
       h+='<div style="margin-top:.5rem">';
       res.slice(0,50).forEach(r=>{
         h+='<div class="sr-row" data-jump-gid="'+esc(r.gid)+'" data-jump-date="'+esc(r.date)+'">';
         h+='<span class="sr-date">'+esc(fmtDate(r.date))+'</span>';
         h+='<span class="sr-girl">'+esc(r.gname)+'</span>';
-        h+='<span class="sr-text">'+esc(r.med)+(r.dosage?' '+esc(r.dosage):'')+' ‚Äì '+esc(r.mo)+'</span>';
+        h+='<span class="sr-text">'+esc(r.med)+(r.dosage?' '+esc(r.dosage):'')+' – '+esc(r.mo)+'</span>';
         h+='<span class="s-pill s-'+esc(r.status)+'">'+esc(sLabel(r.status))+'</span>';
         if(r.note)h+='<span style="font-size:12px;color:#6b7280">'+esc(r.note)+'</span>';
         h+='</div>';
       });
-      if(res.length>50)h+='<p style="font-size:12px;color:#9ca3af;padding:.5rem 0">'+res.length+' r√©sultats ‚Äî 50 affich√©s. Affine la recherche.</p>';
+      if(res.length>50)h+='<p style="font-size:12px;color:#9ca3af;padding:.5rem 0">'+res.length+' résultats — 50 affichés. Affine la recherche.</p>';
       h+='</div>';
     }
   }
@@ -1121,11 +1121,11 @@ function renderArchive(g){
     (g.meds||[]).forEach(m=>{m.moments.forEach(mo=>{
       const log=logs[date]?.[m.id]?.[mo];
       if(log&&log.status){
-        entries+='<div class="arch-entry"><span style="flex:1">'+esc(m.name)+(m.dosage?' '+esc(m.dosage):'')+' ‚Äì '+esc(mo)+'</span><span class="s-pill s-'+esc(log.status)+'">'+esc(sLabel(log.status))+'</span>'+(log.note?'<span style="font-size:12px;color:#6b7280">'+esc(log.note)+'</span>':'')+'</div>';
+        entries+='<div class="arch-entry"><span style="flex:1">'+esc(m.name)+(m.dosage?' '+esc(m.dosage):'')+' – '+esc(mo)+'</span><span class="s-pill s-'+esc(log.status)+'">'+esc(sLabel(log.status))+'</span>'+(log.note?'<span style="font-size:12px;color:#6b7280">'+esc(log.note)+'</span>':'')+'</div>';
       }
     });});
     (logs[date]?._ponct||[]).forEach(p=>{
-      if(p.status)entries+='<div class="arch-entry"><span style="flex:1">'+esc(p.name)+(p.dosage?' '+esc(p.dosage):'')+' <em>(ponctuel)</em>'+(p.motif?' ¬∑ '+esc(p.motif):'')+'</span><span class="s-pill s-'+esc(p.status)+'">'+esc(sLabel(p.status))+'</span></div>';
+      if(p.status)entries+='<div class="arch-entry"><span style="flex:1">'+esc(p.name)+(p.dosage?' '+esc(p.dosage):'')+' <em>(ponctuel)</em>'+(p.motif?' · '+esc(p.motif):'')+'</span><span class="s-pill s-'+esc(p.status)+'">'+esc(sLabel(p.status))+'</span></div>';
     });
     if(entries)h+='<div class="arch-day"><div class="arch-day-title">'+esc(fmtDate(date))+'</div>'+entries+'</div>';
   });
@@ -1144,10 +1144,10 @@ function renderPanel(g){
   const poncts=getPonct(g.id,date);
   const gid=esc(g.id);
   let h='<div>';
-  h+='<div class="print-only-header">'+esc(g.name)+' ‚Äî '+esc(fmtDate(date))+'</div>';
+  h+='<div class="print-only-header">'+esc(g.name)+' — '+esc(fmtDate(date))+'</div>';
 
   if(ui.showRename[g.id]){
-    h+='<div class="form-box no-print" style="margin-bottom:1rem"><div class="form-row"><span class="f-label">Pr√©nom</span><input class="f-inp" id="ren-'+gid+'" value="'+esc(g.name)+'"/><button class="btn btn-purple" data-act="rename" data-gid="'+gid+'">OK</button><button class="btn" data-act="rename-cancel" data-gid="'+gid+'">Annuler</button></div></div>';
+    h+='<div class="form-box no-print" style="margin-bottom:1rem"><div class="form-row"><span class="f-label">Prénom</span><input class="f-inp" id="ren-'+gid+'" value="'+esc(g.name)+'"/><button class="btn btn-purple" data-act="rename" data-gid="'+gid+'">OK</button><button class="btn" data-act="rename-cancel" data-gid="'+gid+'">Annuler</button></div></div>';
   }
 
   // Ordonnances
@@ -1157,41 +1157,41 @@ function renderPanel(g){
     const idx=ordos.indexOf(o);
     const hasPdf=!!o.pdfId;
     const pdfBtn=hasPdf
-      ? '<button class="icon-btn no-print" title="Voir le PDF" data-act="view-pdf" data-pdfid="'+esc(o.pdfId)+'">üìÑ</button>'
-      : '<label class="icon-btn no-print" title="Ajouter un PDF" style="cursor:pointer">üìé<input type="file" accept="application/pdf" style="display:none" data-act="upload-pdf" data-gid="'+gid+'" data-idx="'+idx+'"/></label>';
-    h+='<div class="ordo-row active-o"><div class="ordo-text"><div class="ordo-name">'+esc(o.name)+'</div><div class="ordo-meta">Dr '+esc(o.medecin||'‚Äì')+' ¬∑ depuis le '+esc(fmtShort(o.date))+(o.expireDate?' ¬∑ expire le '+esc(fmtShort(o.expireDate)):'')+'</div></div>';
+      ? '<button class="icon-btn no-print" title="Voir le PDF" data-act="view-pdf" data-pdfid="'+esc(o.pdfId)+'">📄</button>'
+      : '<label class="icon-btn no-print" title="Ajouter un PDF" style="cursor:pointer">📎<input type="file" accept="application/pdf" style="display:none" data-act="upload-pdf" data-gid="'+gid+'" data-idx="'+idx+'"/></label>';
+    h+='<div class="ordo-row active-o"><div class="ordo-text"><div class="ordo-name">'+esc(o.name)+'</div><div class="ordo-meta">Dr '+esc(o.medecin||'–')+' · depuis le '+esc(fmtShort(o.date))+(o.expireDate?' · expire le '+esc(fmtShort(o.expireDate)):'')+'</div></div>';
     h+='<span class="pill pill-purple">En cours</span>'+pdfBtn;
-    h+='<button class="icon-btn no-print" title="Modifier" data-act="ordo-edit-toggle" data-gid="'+gid+'" data-idx="'+idx+'">‚úèÔ∏è</button>';
-    h+='<button class="icon-btn no-print" title="Archiver" data-act="ordo-toggle" data-gid="'+gid+'" data-idx="'+idx+'">‚Üì</button>';
-    h+='<button class="icon-btn danger no-print" title="Supprimer" data-act="ordo-del" data-gid="'+gid+'" data-idx="'+idx+'">‚úï</button>';
+    h+='<button class="icon-btn no-print" title="Modifier" data-act="ordo-edit-toggle" data-gid="'+gid+'" data-idx="'+idx+'">✏️</button>';
+    h+='<button class="icon-btn no-print" title="Archiver" data-act="ordo-toggle" data-gid="'+gid+'" data-idx="'+idx+'">↓</button>';
+    h+='<button class="icon-btn danger no-print" title="Supprimer" data-act="ordo-del" data-gid="'+gid+'" data-idx="'+idx+'">✕</button>';
     h+='</div>';
     if(ui.showOrdoEdit[g.id+'-'+idx]){
       h+='<div class="form-box no-print" style="margin-top:4px;margin-bottom:8px">';
       h+='<div class="form-row"><span class="f-label">Nom</span><input class="f-inp" id="oen-'+gid+'-'+idx+'" value="'+esc(o.name)+'"/></div>';
-      h+='<div class="form-row"><span class="f-label">M√©decin</span><input class="f-inp" id="oem-'+gid+'-'+idx+'" value="'+esc(o.medecin||'')+'" placeholder="Dr ‚Ä¶"/></div>';
-      h+='<div class="form-row"><span class="f-label">D√©but</span><input class="f-inp" type="date" id="oed-'+gid+'-'+idx+'" value="'+esc(o.date||todayStr())+'"/></div>';
+      h+='<div class="form-row"><span class="f-label">Médecin</span><input class="f-inp" id="oem-'+gid+'-'+idx+'" value="'+esc(o.medecin||'')+'" placeholder="Dr …"/></div>';
+      h+='<div class="form-row"><span class="f-label">Début</span><input class="f-inp" type="date" id="oed-'+gid+'-'+idx+'" value="'+esc(o.date||todayStr())+'"/></div>';
       h+='<div class="form-row"><span class="f-label">Expire</span><input class="f-inp" type="date" id="oee-'+gid+'-'+idx+'" value="'+esc(o.expireDate||addDays(todayStr(),365))+'"/></div>';
       h+='<div class="form-row"><button class="btn btn-purple" data-act="ordo-save-edit" data-gid="'+gid+'" data-idx="'+idx+'">Enregistrer</button><button class="btn" data-act="ordo-edit-cancel" data-gid="'+gid+'" data-idx="'+idx+'">Annuler</button></div>';
       h+='</div>';
     }
   });
   if(archived.length){
-    h+='<button class="btn no-print" style="font-size:12px;margin-bottom:6px" data-act="toggle-arch-ordos" data-gid="'+gid+'">'+(ui.showArch[g.id]?'‚ñ≤ Masquer':'‚ñº Voir')+' archiv√©es ('+archived.length+')</button>';
+    h+='<button class="btn no-print" style="font-size:12px;margin-bottom:6px" data-act="toggle-arch-ordos" data-gid="'+gid+'">'+(ui.showArch[g.id]?'▲ Masquer':'▼ Voir')+' archivées ('+archived.length+')</button>';
     if(ui.showArch[g.id])archived.forEach(o=>{
       const idx=ordos.indexOf(o);
-      h+='<div class="ordo-row"><div class="ordo-text"><div class="ordo-name" style="color:#6b7280">'+esc(o.name)+'</div><div class="ordo-meta">Dr '+esc(o.medecin||'‚Äì')+' ¬∑ '+esc(fmtShort(o.date))+'</div></div>';
-      h+='<span class="pill pill-gray">Archiv√©e</span>';
-      h+='<button class="icon-btn no-print" title="R√©activer" data-act="ordo-toggle" data-gid="'+gid+'" data-idx="'+idx+'">‚Üë</button>';
-      h+='<button class="icon-btn danger no-print" title="Supprimer" data-act="ordo-del" data-gid="'+gid+'" data-idx="'+idx+'">‚úï</button>';
+      h+='<div class="ordo-row"><div class="ordo-text"><div class="ordo-name" style="color:#6b7280">'+esc(o.name)+'</div><div class="ordo-meta">Dr '+esc(o.medecin||'–')+' · '+esc(fmtShort(o.date))+'</div></div>';
+      h+='<span class="pill pill-gray">Archivée</span>';
+      h+='<button class="icon-btn no-print" title="Réactiver" data-act="ordo-toggle" data-gid="'+gid+'" data-idx="'+idx+'">↑</button>';
+      h+='<button class="icon-btn danger no-print" title="Supprimer" data-act="ordo-del" data-gid="'+gid+'" data-idx="'+idx+'">✕</button>';
       h+='</div>';
     });
   }
   h+='<button class="btn btn-purple no-print" style="margin-top:8px" data-act="toggle-ordo-form" data-gid="'+gid+'">+ Ordonnance</button>';
   if(ui.showOrdoForm[g.id]){
     h+='<div class="form-box no-print">';
-    h+='<div class="form-row"><span class="f-label">Nom</span><input class="f-inp" id="ofn-'+gid+'" placeholder="ex: G√©n√©raliste, Psy‚Ä¶" autofocus/></div>';
-    h+='<div class="form-row"><span class="f-label">M√©decin</span><input class="f-inp" id="ofm-'+gid+'" placeholder="Dr Dupont"/></div>';
-    h+='<div class="form-row"><span class="f-label">D√©but</span><input class="f-inp" type="date" id="ofd-'+gid+'" value="'+todayStr()+'"/></div>';
+    h+='<div class="form-row"><span class="f-label">Nom</span><input class="f-inp" id="ofn-'+gid+'" placeholder="ex: Généraliste, Psy…" autofocus/></div>';
+    h+='<div class="form-row"><span class="f-label">Médecin</span><input class="f-inp" id="ofm-'+gid+'" placeholder="Dr Dupont"/></div>';
+    h+='<div class="form-row"><span class="f-label">Début</span><input class="f-inp" type="date" id="ofd-'+gid+'" value="'+todayStr()+'"/></div>';
     h+='<div class="form-row"><span class="f-label">Expire</span><input class="f-inp" type="date" id="ofe-'+gid+'" value="'+addDays(todayStr(),365)+'"/></div>';
     h+='<div class="form-row"><span class="f-label">PDF</span><input type="file" id="ofpdf-'+gid+'" accept="application/pdf" style="font-size:13px;flex:1"/></div>';
     h+='<div class="form-row"><button class="btn btn-purple" data-act="ordo-add" data-gid="'+gid+'">Enregistrer</button><button class="btn" data-act="ordo-form-cancel" data-gid="'+gid+'">Annuler</button></div>';
@@ -1201,18 +1201,18 @@ function renderPanel(g){
 
   // Date nav
   h+='<div class="date-nav no-print">';
-  h+='<button class="nav-btn" data-act="date-shift" data-gid="'+gid+'" data-n="-1" title="Jour pr√©c√©dent">‚Äπ</button>';
+  h+='<button class="nav-btn" data-act="date-shift" data-gid="'+gid+'" data-n="-1" title="Jour précédent">‹</button>';
   h+='<span class="date-label">'+esc(fmtDate(date))+'</span>';
-  h+='<button class="nav-btn" data-act="date-shift" data-gid="'+gid+'" data-n="1" title="Jour suivant">‚Ä∫</button>';
+  h+='<button class="nav-btn" data-act="date-shift" data-gid="'+gid+'" data-n="1" title="Jour suivant">›</button>';
   h+='<input type="date" class="date-pick" value="'+esc(date)+'" data-act="date-pick" data-gid="'+gid+'"/>';
   h+='<button class="today-btn" data-act="date-today" data-gid="'+gid+'">Aujourd\'hui</button>';
   h+='</div>';
 
-  if(locked)h+='<div class="locked-banner">üîí Mois archiv√© ‚Äî consultation uniquement.</div>';
+  if(locked)h+='<div class="locked-banner">🔒 Mois archivé — consultation uniquement.</div>';
 
   // Meds
   if(!g.meds||!g.meds.length){
-    h+='<div class="empty">Aucun m√©dicament enregistr√©.</div>';
+    h+='<div class="empty">Aucun médicament enregistré.</div>';
   }else{
     h+='<div class="card"><div class="card-title">Traitement quotidien</div>';
     g.meds.forEach(m=>{
@@ -1220,8 +1220,8 @@ function renderPanel(g){
       let alerteMed='';
       if(m.dateFin){
         const diff=Math.ceil((new Date(m.dateFin+'T12:00:00')-new Date(today+'T12:00:00'))/(1000*60*60*24));
-        if(diff<0)alerteMed=' <span class="med-alert" style="background:#fde8e8;color:#8b1a1a">‚ö†Ô∏è Prescription expir√©e</span>';
-        else if(diff<=3)alerteMed=' <span class="med-alert" style="background:#fdf0dc;color:#7a4f00">‚è∞ '+diff+' jour'+(diff>1?'s':'')+' restant'+(diff>1?'s':'')+'</span>';
+        if(diff<0)alerteMed=' <span class="med-alert" style="background:#fde8e8;color:#8b1a1a">⚠️ Prescription expirée</span>';
+        else if(diff<=3)alerteMed=' <span class="med-alert" style="background:#fdf0dc;color:#7a4f00">⏰ '+diff+' jour'+(diff>1?'s':'')+' restant'+(diff>1?'s':'')+'</span>';
       }
       const hasPartial=m.moments.some(mo=>getLog(g.id,date,m.id,mo).status==='partial');
       const note=m.moments.reduce((acc,mo)=>acc||getLog(g.id,date,m.id,mo).note,'');
@@ -1232,8 +1232,8 @@ function renderPanel(g){
         h+='<span class="print-status s-'+esc(log.status)+'">'+esc(sLabel(log.status))+'</span>';
         h+='</div>';
       });
-      h+='</div>'+(!locked?'<button class="del-btn no-print" data-act="med-del" data-gid="'+gid+'" data-mid="'+esc(m.id)+'" title="Supprimer">√ó</button>':'')+'</div>';
-      if(hasPartial)h+='<div class="note-wrap"><input class="note-inp" '+(locked?'disabled':'')+' placeholder="Pr√©cise ce qui a √©t√© pris partiellement‚Ä¶" value="'+esc(note||'')+'" data-act="save-note" data-gid="'+gid+'" data-mid="'+esc(m.id)+'"/></div>';
+      h+='</div>'+(!locked?'<button class="del-btn no-print" data-act="med-del" data-gid="'+gid+'" data-mid="'+esc(m.id)+'" title="Supprimer">×</button>':'')+'</div>';
+      if(hasPartial)h+='<div class="note-wrap"><input class="note-inp" '+(locked?'disabled':'')+' placeholder="Précise ce qui a été pris partiellement…" value="'+esc(note||'')+'" data-act="save-note" data-gid="'+gid+'" data-mid="'+esc(m.id)+'"/></div>';
       h+='</div>';
     });
     h+='</div>';
@@ -1247,7 +1247,7 @@ function renderPanel(g){
       h+='<div class="prise-group"><div class="prise-slot"><span class="prise-label">Pris</span><button class="p-btn '+esc(p.status||'')+'" '+(locked?'disabled':'')+' data-act="toggle-ponct" data-gid="'+gid+'" data-date="'+esc(date)+'" data-idx="'+i+'">'+esc(sIcon(p.status||''))+'</button>';
       h+='<span class="print-status s-'+esc(p.status||'')+'">'+esc(sLabel(p.status||''))+'</span>';
       h+='</div></div>';
-      h+=(!locked?'<button class="del-btn no-print" data-act="ponct-del" data-gid="'+gid+'" data-date="'+esc(date)+'" data-idx="'+i+'">√ó</button>':'')+'</div></div>';
+      h+=(!locked?'<button class="del-btn no-print" data-act="ponct-del" data-gid="'+gid+'" data-date="'+esc(date)+'" data-idx="'+i+'">×</button>':'')+'</div></div>';
     });
     h+='</div>';
   }
@@ -1255,7 +1255,7 @@ function renderPanel(g){
   // Add buttons
   if(!locked){
     h+='<div class="no-print" style="margin-bottom:1rem">';
-    h+='<button class="btn btn-purple" data-act="toggle-med-form" data-gid="'+gid+'">+ M√©dicament</button>';
+    h+='<button class="btn btn-purple" data-act="toggle-med-form" data-gid="'+gid+'">+ Médicament</button>';
     h+='<button class="btn btn-yellow" data-act="toggle-ponct-form" data-gid="'+gid+'">+ Ponctuel</button>';
     h+='</div>';
     if(ui.showMedForm[g.id]){
@@ -1269,7 +1269,7 @@ function renderPanel(g){
       });
       h+='</div></div>';
       h+='<div class="form-row"><span class="f-label">Date fin</span><input class="f-inp" type="date" id="mfdf-'+gid+'" /></div>';
-      h+='<div class="form-row"><span class="f-label">ou dur√©e</span><input class="f-inp" type="number" id="mfdu-'+gid+'" placeholder="Nb de jours" min="1" style="max-width:160px"/></div>';
+      h+='<div class="form-row"><span class="f-label">ou durée</span><input class="f-inp" type="number" id="mfdu-'+gid+'" placeholder="Nb de jours" min="1" style="max-width:160px"/></div>';
       h+='<div class="form-row"><button class="btn btn-purple" data-act="med-add" data-gid="'+gid+'">Enregistrer</button><button class="btn" data-act="med-form-cancel" data-gid="'+gid+'">Annuler</button></div>';
       h+='</div>';
     }
@@ -1277,7 +1277,7 @@ function renderPanel(g){
       h+='<div class="form-box form-box-yellow no-print">';
       h+='<div class="form-row"><span class="f-label">Nom</span><input class="f-inp" id="pfn-'+gid+'" placeholder="ex: Doliprane" autofocus/></div>';
       h+='<div class="form-row"><span class="f-label">Dosage</span><input class="f-inp" id="pfd-'+gid+'" placeholder="ex: 1000mg"/></div>';
-      h+='<div class="form-row"><span class="f-label">Motif</span><input class="f-inp" id="pfm-'+gid+'" placeholder="ex: Mal de t√™te, fi√®vre‚Ä¶"/></div>';
+      h+='<div class="form-row"><span class="f-label">Motif</span><input class="f-inp" id="pfm-'+gid+'" placeholder="ex: Mal de tête, fièvre…"/></div>';
       h+='<div class="form-row"><button class="btn btn-purple" data-act="ponct-add" data-gid="'+gid+'" data-date="'+esc(date)+'">Enregistrer</button><button class="btn" data-act="ponct-form-cancel" data-gid="'+gid+'">Annuler</button></div>';
       h+='</div>';
     }
@@ -1285,7 +1285,7 @@ function renderPanel(g){
 
   // Secondary actions
   h+='<div class="no-print" style="margin-top:1.25rem">';
-  h+='<button class="btn" data-act="toggle-archive" data-gid="'+gid+'">üìÅ Archives mensuelles</button>';
+  h+='<button class="btn" data-act="toggle-archive" data-gid="'+gid+'">📁 Archives mensuelles</button>';
   h+='<button class="btn" data-act="toggle-rename" data-gid="'+gid+'">Renommer</button>';
   h+='<button class="btn btn-danger" data-act="archive-girl" data-gid="'+gid+'">Archiver la jeune</button>';
   h+='</div>';
@@ -1311,10 +1311,10 @@ function renderBanners(){
       const b=document.createElement('div');
       b.className='mode-banner warn';
       const msg=lastExp
-        ? '‚ö†Ô∏è Derni√®re sauvegarde il y a '+sinceExpHours+'h ‚Äî pense √† exporter et d√©poser le fichier sur Drive.'
-        : '‚ö†Ô∏è Aucune sauvegarde export√©e encore. Pense √† exporter r√©guli√®rement.';
+        ? '⚠️ Dernière sauvegarde il y a '+sinceExpHours+'h — pense à exporter et déposer le fichier sur Drive.'
+        : '⚠️ Aucune sauvegarde exportée encore. Pense à exporter régulièrement.';
       b.innerHTML='<span class="grow">'+msg+'</span>';
-      const btn=document.createElement('button');btn.className='btn';btn.textContent='‚¨áÔ∏è Exporter maintenant';
+      const btn=document.createElement('button');btn.className='btn';btn.textContent='⬇️ Exporter maintenant';
       btn.onclick=exportAll;b.appendChild(btn);
       banners.appendChild(b);
     }
@@ -1328,12 +1328,12 @@ function renderBanners(){
   let syncTxt='';
   if(cloudEnabled()){
     const state=data._syncState;
-    const lastSyncTxt=lastSyncedAt?lastSyncedAt.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}):'‚Ä¶';
-    if(state==='syncing')syncTxt='üîÑ <b>Sync en cours‚Ä¶</b>';
-    else if(state==='error')syncTxt='‚ö†Ô∏è <b>Erreur de sync</b> ‚Äî v√©rifie les r√©glages.';
-    else syncTxt='üåê <b>Sync auto activ√©e</b> (derni√®re : '+esc(lastSyncTxt)+')';
+    const lastSyncTxt=lastSyncedAt?lastSyncedAt.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}):'…';
+    if(state==='syncing')syncTxt='🔄 <b>Sync en cours…</b>';
+    else if(state==='error')syncTxt='⚠️ <b>Erreur de sync</b> — vérifie les réglages.';
+    else syncTxt='🌐 <b>Sync auto activée</b> (dernière : '+esc(lastSyncTxt)+')';
   }else{
-    syncTxt='üíæ <b>Mode local</b> ‚Äî Derni√®re export : <b>'+esc(lastExp)+'</b>';
+    syncTxt='💾 <b>Mode local</b> — Dernière export : <b>'+esc(lastExp)+'</b>';
   }
   info.innerHTML='<span class="grow">'+syncTxt+'</span>';
   banners.appendChild(info);
@@ -1346,7 +1346,7 @@ function renderBanners(){
     const b=document.createElement('div');
     b.className='locked-banner';
     b.style.textAlign='center';
-    b.textContent='‚è∞ Le mot de passe a plus de 6 mois ‚Äî pense √† le mettre √† jour dans le fichier HTML.';
+    b.textContent='⏰ Le mot de passe a plus de 6 mois — pense à le mettre à jour dans le fichier HTML.';
     banners.appendChild(b);
   }
 }
@@ -1364,7 +1364,7 @@ function renderTabs(){
   if(arch.length){
     const a=document.createElement('button');
     a.className='tab'+(cur==='_arch'?' active':'');
-    a.textContent='üìÅ Archiv√©es ('+arch.length+')';
+    a.textContent='📁 Archivées ('+arch.length+')';
     a.dataset.tab='_arch';
     el.appendChild(a);
   }
@@ -1377,26 +1377,26 @@ function renderTabs(){
 
 function renderPanels(){
   const el=document.getElementById('panels');if(!el)return;el.innerHTML='';
-  if(ui.loading){el.innerHTML='<div class="empty" style="margin-top:2rem">Chargement‚Ä¶</div>';return;}
+  if(ui.loading){el.innerHTML='<div class="empty" style="margin-top:2rem">Chargement…</div>';return;}
   el.insertAdjacentHTML('beforeend',renderSearch());
   if(ui.showAddGirl){
-    el.insertAdjacentHTML('beforeend','<div class="form-box no-print" style="margin-bottom:1rem"><div class="form-row"><span class="f-label">Pr√©nom</span><input class="f-inp" id="new-girl-name" placeholder="Pr√©nom de la jeune" autofocus/><button class="btn btn-purple" id="confirm-add-girl">Ajouter</button><button class="btn" id="cancel-add-girl">Annuler</button></div></div>');
+    el.insertAdjacentHTML('beforeend','<div class="form-box no-print" style="margin-bottom:1rem"><div class="form-row"><span class="f-label">Prénom</span><input class="f-inp" id="new-girl-name" placeholder="Prénom de la jeune" autofocus/><button class="btn btn-purple" id="confirm-add-girl">Ajouter</button><button class="btn" id="cancel-add-girl">Annuler</button></div></div>');
   }
   if(cur==='_arch'){
-    let h='<div class="card"><div class="card-title">Jeunes archiv√©es</div>';
+    let h='<div class="card"><div class="card-title">Jeunes archivées</div>';
     const arch=data.girls.filter(g=>g.archived);
     if(!arch.length)h+='<p style="color:#9ca3af;font-size:13px">Aucune.</p>';
     else arch.forEach(g=>{
       h+='<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #f0f0f0;font-size:14px"><span style="flex:1">'+esc(g.name)+'</span>';
-      h+='<button class="btn" data-act="unarchive-girl" data-gid="'+esc(g.id)+'">R√©activer</button>';
-      h+='<button class="btn btn-danger" data-act="purge-girl" data-gid="'+esc(g.id)+'">Supprimer d√©finitivement</button>';
+      h+='<button class="btn" data-act="unarchive-girl" data-gid="'+esc(g.id)+'">Réactiver</button>';
+      h+='<button class="btn btn-danger" data-act="purge-girl" data-gid="'+esc(g.id)+'">Supprimer définitivement</button>';
       h+='</div>';
     });
     el.insertAdjacentHTML('beforeend',h+'</div>');
     return;
   }
   if(!data.girls.filter(g=>!g.archived).length){
-    el.insertAdjacentHTML('beforeend','<div class="empty" style="margin-top:2rem">Aucune jeune enregistr√©e.<br>Clique sur <b>+ Ajouter une jeune</b> pour commencer.</div>');
+    el.insertAdjacentHTML('beforeend','<div class="empty" style="margin-top:2rem">Aucune jeune enregistrée.<br>Clique sur <b>+ Ajouter une jeune</b> pour commencer.</div>');
     return;
   }
   const g=girl(cur);
@@ -1411,7 +1411,7 @@ function render(){renderBanners();renderTabs();renderPanels();}
 function addGirl(){
   const inp=document.getElementById('new-girl-name');
   const name=inp?.value?.trim();
-  if(!name){alert('Saisis un pr√©nom.');return;}
+  if(!name){alert('Saisis un prénom.');return;}
   const id=uid('g');
   data.girls.push({id,name,ordos:[],meds:[],archived:false,_modifiedAt:nowMs()});
   curDate[id]=todayStr();
@@ -1486,7 +1486,7 @@ function addPonct(gid,date){
 
 function doRename(id){
   const v=document.getElementById('ren-'+id)?.value?.trim();
-  if(!v){alert('Le pr√©nom ne peut pas √™tre vide.');return;}
+  if(!v){alert('Le prénom ne peut pas être vide.');return;}
   const g=girl(id);g.name=v;touchGirl(g);
   ui.showRename[id]=false;
   saveData();
@@ -1522,7 +1522,7 @@ async function delOrdo(gid,idx){
 
 async function purgeGirl(gid){
   const g=girl(gid);if(!g)return;
-  if(!confirm('Supprimer D√âFINITIVEMENT '+g.name+' et tout son historique ? Cette action est irr√©versible.\n\nAssure-toi d\'avoir export√© avant.'))return;
+  if(!confirm('Supprimer DÉFINITIVEMENT '+g.name+' et tout son historique ? Cette action est irréversible.\n\nAssure-toi d\'avoir exporté avant.'))return;
   if(!confirm('Vraiment ? Toutes les ordonnances et logs seront perdus.'))return;
   for(const o of (g.ordos||[])){
     if(o.pdfId)try{await idbDelete(o.pdfId);}catch{}
@@ -1536,7 +1536,7 @@ async function purgeGirl(gid){
 }
 
 function doPrint(){
-  if(!cur||cur==='_arch'){alert('S√©lectionne d\'abord une jeune.');return;}
+  if(!cur||cur==='_arch'){alert('Sélectionne d\'abord une jeune.');return;}
   window.print();
 }
 
@@ -1556,12 +1556,12 @@ async function testSettings(){
   const masterKey=document.getElementById('cfg-key').value.trim();
   const status=document.getElementById('cfg-status');
   if(!binId||!masterKey){status.textContent='Renseigne Bin ID et Master Key.';status.style.color='var(--c-danger)';return;}
-  status.textContent='Test en cours‚Ä¶';status.style.color='var(--c-muted)';
+  status.textContent='Test en cours…';status.style.color='var(--c-muted)';
   try{
     const r=await fetch(`${JSONBIN_BASE}/b/${binId}/latest`,{headers:{'X-Master-Key':masterKey}});
-    if(r.ok){status.textContent='‚úì Connexion r√©ussie ('+r.status+')';status.style.color='var(--c-ok)';}
-    else{status.textContent='‚úï √âchec ('+r.status+'). V√©rifie les identifiants.';status.style.color='var(--c-danger)';}
-  }catch(e){status.textContent='‚úï Erreur r√©seau : '+e.message;status.style.color='var(--c-danger)';}
+    if(r.ok){status.textContent='✓ Connexion réussie ('+r.status+')';status.style.color='var(--c-ok)';}
+    else{status.textContent='✕ Échec ('+r.status+'). Vérifie les identifiants.';status.style.color='var(--c-danger)';}
+  }catch(e){status.textContent='✕ Erreur réseau : '+e.message;status.style.color='var(--c-danger)';}
 }
 function saveSettings(){
   const binId=document.getElementById('cfg-binid').value.trim();
@@ -1654,7 +1654,7 @@ function handlePanelClick(e){
       arr.splice(i,1);saveData();render();break;
     }
     case 'med-del': {
-      if(!confirm('Supprimer ce m√©dicament ?'))break;
+      if(!confirm('Supprimer ce médicament ?'))break;
       const g=girl(gid);
       ensureDeleted().meds.push(a.dataset.mid);
       g.meds=g.meds.filter(m=>m.id!==a.dataset.mid);
@@ -1672,7 +1672,7 @@ function handlePanelClick(e){
     case 'rename-cancel': ui.showRename[gid]=false;render();break;
     case 'toggle-archive': ui.showArchive[gid]=!ui.showArchive[gid];render();break;
     case 'archive-girl': {
-      if(!confirm('Archiver cette jeune ? Son historique sera conserv√© et tu pourras la r√©activer plus tard.'))break;
+      if(!confirm('Archiver cette jeune ? Son historique sera conservé et tu pourras la réactiver plus tard.'))break;
       const g=girl(gid);g.archived=true;touchGirl(g);
       cur=data.girls.find(g=>!g.archived)?.id||null;
       saveData();render();break;
