@@ -183,7 +183,24 @@ button { cursor: pointer; }
 
 .prise-group { display: flex; gap: 10px; align-items: center; flex-shrink: 0; flex-wrap: wrap; }
 .prise-slot { display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 52px; }
-.prise-label { font-size: 11px; color: var(--c-muted); text-transform: uppercase; letter-spacing: .04em; }
+.prise-label {
+  font-size: 11px;
+  color: var(--c-muted);
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+.prise-label.mo-matin    { background: #fff4cc; color: #8a5a00; }
+.prise-label.mo-midi     { background: #ffe1c2; color: #9a3412; }
+.prise-label.mo-soir     { background: #cfe6f8; color: #1e40af; }
+.prise-label.mo-coucher  { background: #e9d8fd; color: #6b21a8; }
+
+.radio-opt.mo-matin    { padding: 4px 8px; border-radius: 8px; background: #fff4cc; color: #8a5a00; }
+.radio-opt.mo-midi     { padding: 4px 8px; border-radius: 8px; background: #ffe1c2; color: #9a3412; }
+.radio-opt.mo-soir     { padding: 4px 8px; border-radius: 8px; background: #cfe6f8; color: #1e40af; }
+.radio-opt.mo-coucher  { padding: 4px 8px; border-radius: 8px; background: #e9d8fd; color: #6b21a8; }
 .p-btn {
   width: 40px; height: 40px;
   border-radius: 50%;
@@ -420,11 +437,10 @@ button { cursor: pointer; }
       <div class="app-subtitle">Suivi médicaments · LVA</div>
     </div>
     <div class="app-actions no-print">
-      <button class="btn" id="btn-settings" title="Configurer la synchronisation cloud">⚙️ Réglages</button>
-      <button class="btn" id="btn-import" title="Importer un fichier de sauvegarde">⬆️ Importer</button>
-      <button class="btn" id="btn-export" title="Exporter toutes les données (JSON)">⬇️ Sauvegarde</button>
+      <button class="btn btn-purple" id="btn-save-cloud" title="Sauvegarder dans le cloud — toute l'équipe verra les modifs">💾 Sauvegarder</button>
       <button class="btn" id="btn-export-csv" title="Exporter la jeune en CSV">📊 CSV</button>
       <button class="btn" id="btn-print" title="Imprimer la fiche du jour">🖨️ Imprimer</button>
+      <button class="btn" id="btn-settings" title="Réglages avancés (sauvegarde de secours, sync alternative)">⚙️</button>
       <button class="btn btn-danger" id="btn-logout" title="Se déconnecter">🔒 Quitter</button>
     </div>
   </header>
@@ -438,41 +454,39 @@ button { cursor: pointer; }
 <!-- SETTINGS MODAL -->
 <div id="settings-modal" class="modal-backdrop" style="display:none">
   <div class="modal">
-    <h2>⚙️ Synchronisation cloud</h2>
-    <p style="font-size:13px">
-      Active la synchronisation pour que toute l'équipe voie les modifications en temps réel
-      (polling toutes les 15 s, fusion automatique des changements).<br>
-      <a href="https://jsonbin.io" target="_blank" rel="noopener" style="color:var(--c-primary)">Créer un compte JSONBin gratuit →</a>
+    <h2>⚙️ Réglages</h2>
+
+    <h3 style="font-size:14px;margin:1rem 0 .25rem">💾 Sauvegarde de secours (fichier local)</h3>
+    <p style="font-size:13px;color:var(--c-muted);margin:0 0 .5rem">
+      Au cas où le cloud serait indisponible : télécharge ou recharge un fichier JSON contenant toutes les données + PDFs.
     </p>
-    <div class="form-row" style="margin-top:1rem">
+    <div class="form-row">
+      <button class="btn" id="cfg-download">⬇️ Télécharger une copie</button>
+      <button class="btn" id="cfg-upload">⬆️ Recharger un fichier</button>
+    </div>
+
+    <h3 style="font-size:14px;margin:1.5rem 0 .25rem">☁️ Sauvegarde cloud (avancé)</h3>
+    <p style="font-size:13px;color:var(--c-muted);margin:0 0 .5rem">
+      Les identifiants JSONBin sont déjà inscrits dans l'appli. Ne touche à rien sauf si tu sais ce que tu fais.
+    </p>
+    <div class="form-row">
       <span class="f-label">Bin ID</span>
-      <input class="f-inp" id="cfg-binid" placeholder="ex: 6XXXXXXXXXXXXXXXXXXXXX"/>
+      <input class="f-inp" id="cfg-binid" placeholder="(par défaut)"/>
     </div>
     <div class="form-row">
       <span class="f-label">Master Key</span>
-      <input class="f-inp" id="cfg-key" type="password" placeholder="$2a$10$..."/>
+      <input class="f-inp" id="cfg-key" type="password" placeholder="(par défaut)"/>
     </div>
     <div class="form-row">
-      <label class="radio-opt"><input type="checkbox" id="cfg-enabled"> Activer la synchronisation</label>
+      <label class="radio-opt"><input type="checkbox" id="cfg-enabled"> Activer le cloud</label>
     </div>
     <div id="cfg-status" style="font-size:12px;color:var(--c-muted);margin-top:.5rem"></div>
-    <div class="form-row" style="margin-top:1rem;justify-content:flex-end">
+
+    <div class="form-row" style="margin-top:1.5rem;justify-content:flex-end">
       <button class="btn" id="cfg-test">Tester</button>
-      <button class="btn" id="cfg-cancel">Annuler</button>
+      <button class="btn" id="cfg-cancel">Fermer</button>
       <button class="btn btn-purple" id="cfg-save">Enregistrer</button>
     </div>
-    <details style="margin-top:1rem;font-size:12px;color:var(--c-muted)">
-      <summary style="cursor:pointer">Comment configurer JSONBin ?</summary>
-      <ol style="margin:.5rem 0 0 1rem;padding:0">
-        <li>Crée un compte sur <b>jsonbin.io</b> (gratuit, 100k requêtes/mois).</li>
-        <li>Dans le menu <b>API Keys</b>, copie la <b>X-Master-Key</b> (commence par <code>$2a$10$</code>).</li>
-        <li>Crée un nouveau bin (n'importe quel JSON, ex: <code>{}</code>).</li>
-        <li>Copie son <b>Bin ID</b> (24 caractères dans l'URL).</li>
-        <li>Colle les deux ici, coche "Activer", clique "Enregistrer".</li>
-        <li>Partage ces 2 valeurs avec ton équipe (chacun les saisit une fois sur son navigateur).</li>
-      </ol>
-      <p style="margin-top:.5rem"><b>⚠️ RGPD :</b> JSONBin héberge aux USA. Acceptable en MVP, à migrer vers un backend EU (Supabase EU, Cloudflare Worker) avant montée en charge.</p>
-    </details>
   </div>
 </div>
 
@@ -490,6 +504,10 @@ const IDB_NAME = 'suivi-medicaments-pdf';
 const IDB_STORE = 'pdfs';
 const REMIND_EXPORT_HOURS = 24;
 const APP_VERSION = 2;
+
+// Cloud sauvegarde — partagée par toute l'équipe, aucun setup côté éducateur
+const CLOUD_BIN_ID = '6a201ef8f5f4af5e29b2491d';
+const CLOUD_MASTER_KEY = '$2a$10$N2Y7ASgpsaDcMXU8AWY4QetrBidpG34agaXpRBpONxCj6Vlv43eXy';
 
 const JOURS = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
 const MOIS = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
@@ -635,7 +653,7 @@ let curDate={};
 let saveTimer=null;
 let ui={
   showArch:{},showOrdoForm:{},showMedForm:{},showPonctForm:{},
-  showRename:{},showArchive:{},showOrdoEdit:{},showAddGirl:false,
+  showRename:{},showArchive:{},showOrdoEdit:{},showMedEdit:{},showAddGirl:false,
   archMonth:{},searchQ:'',searchGirl:'',searchMed:'',
   loading:true
 };
@@ -650,12 +668,20 @@ function setMeta(patch){
 }
 
 function seedIfEmpty(){
+  // Deterministic IDs so two simultaneous first-launches don't create duplicates after sync.
+  // _modifiedAt:0 → any subsequent edit wins in merge resolution.
   data.girls=SEED_GIRLS.map((name)=>({
-    id:uid('g'),name,archived:false,ordos:[],meds:[]
+    id:'g_'+name.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]/g,''),
+    name,archived:false,ordos:[],meds:[],_modifiedAt:0
   }));
   data.logs={};
-  setMeta({seededAt:new Date().toISOString()});
-  saveData(true);
+  data._meta={modifiedAt:0};
+  data._deleted={girls:[],meds:[],ordos:[],ponctuels:[]};
+  // Persist without bumping lastModified (the seed is not a user change)
+  try{
+    localStorage.setItem(LOCAL_KEY,JSON.stringify(data));
+    setMeta({seededAt:new Date().toISOString(),lastModified:'1970-01-01T00:00:00.000Z',lastExportedAt:'1970-01-01T00:00:00.000Z'});
+  }catch(e){console.error('seed save failed',e);}
 }
 
 async function loadData(){
@@ -684,31 +710,39 @@ async function loadData(){
   }
   ui.loading=false;
   render();
-  // Initial cloud sync after load
-  if(cloudEnabled()){syncFlow();startPolling();}
+  // Pull latest from cloud (no auto-push — that's manual via Sauvegarder)
+  if(cloudEnabled()){
+    await pullFromCloud();
+    data.girls.forEach(g=>{curDate[g.id]=curDate[g.id]||todayStr();});
+    if(!cur||!data.girls.find(g=>g.id===cur)){
+      cur=data.girls.find(g=>!g.archived)?.id||null;
+    }
+    render();
+  }
 }
 
 function showSaveStatus(state){
   const b=document.getElementById('sbar');if(!b)return;
   b.classList.remove('error','saved');
   if(state==='saving'){b.textContent='Sauvegarde…';b.style.display='block';}
-  else if(state==='saved'){b.textContent='✓ Enregistré';b.classList.add('saved');b.style.display='block';setTimeout(()=>{b.style.display='none';},900);}
+  else if(state==='saved'){b.textContent='✓ Enregistré (local)';b.classList.add('saved');b.style.display='block';setTimeout(()=>{b.style.display='none';},900);}
+  else if(state==='saved-cloud'){b.textContent='☁️ Sauvegardé pour toute l\'équipe';b.classList.add('saved');b.style.display='block';setTimeout(()=>{b.style.display='none';},1800);}
   else if(state==='error'){b.textContent='⚠ Erreur';b.classList.add('error');b.style.display='block';}
   else{b.style.display='none';}
 }
 
 function saveData(immediate){
   touchRoot();
+  // Update lastModified synchronously so banners reflect the new state immediately
+  setMeta({lastModified:new Date().toISOString()});
   const doSave=()=>{
     try{
       localStorage.setItem(LOCAL_KEY,JSON.stringify(data));
-      setMeta({lastModified:new Date().toISOString()});
       showSaveStatus('saved');
-      scheduleSync();
     }catch(e){
       console.error('saveData failed',e);
       showSaveStatus('error');
-      alert('Sauvegarde impossible. Le stockage est peut-être plein. Exporte tes données immédiatement.');
+      alert('Sauvegarde impossible. Le stockage est peut-être plein. Va dans ⚙️ Réglages et télécharge une copie de secours.');
     }
   };
   if(immediate){if(saveTimer){clearTimeout(saveTimer);saveTimer=null;}showSaveStatus('saving');doSave();return;}
@@ -748,15 +782,16 @@ function touchRoot(){data._meta=data._meta||{};data._meta.modifiedAt=nowMs();}
 // Backfill missing IDs and timestamps on legacy data
 function migrateData(){
   ensureDeleted();
-  data._meta=data._meta||{modifiedAt:nowMs()};
+  if(data._meta===undefined||data._meta===null)data._meta={modifiedAt:0};
   data.girls.forEach(g=>{
-    if(!g._modifiedAt)g._modifiedAt=Date.parse(meta().seededAt||'')||nowMs();
+    // Preserve _modifiedAt:0 from seed — only assign if truly missing
+    if(g._modifiedAt===undefined)g._modifiedAt=Date.parse(meta().seededAt||'')||nowMs();
     (g.ordos||[]).forEach(o=>{
       if(!o._id)o._id=uid('o');
-      if(!o._modifiedAt)o._modifiedAt=g._modifiedAt;
+      if(o._modifiedAt===undefined)o._modifiedAt=g._modifiedAt;
     });
     (g.meds||[]).forEach(m=>{
-      if(!m._modifiedAt)m._modifiedAt=g._modifiedAt;
+      if(m._modifiedAt===undefined)m._modifiedAt=g._modifiedAt;
     });
   });
   Object.values(data.logs||{}).forEach(byDate=>{
@@ -774,7 +809,16 @@ const JSONBIN_BASE='https://api.jsonbin.io/v3';
 const POLL_MS=15000;
 let syncInFlight=false,pendingSync=false,syncDebounce=null,pollTimer=null,lastSyncedAt=null;
 
-function getCloud(){try{return JSON.parse(localStorage.getItem(CLOUD_KEY)||'{}');}catch{return{};}}
+function getCloud(){
+  // Hardcoded values take precedence; localStorage acts as override (for testing / migration)
+  let override={};
+  try{override=JSON.parse(localStorage.getItem(CLOUD_KEY)||'{}');}catch{}
+  return {
+    binId: override.binId||CLOUD_BIN_ID,
+    masterKey: override.masterKey||CLOUD_MASTER_KEY,
+    enabled: override.enabled!==false
+  };
+}
 function setCloud(c){localStorage.setItem(CLOUD_KEY,JSON.stringify(c));}
 function cloudEnabled(){const c=getCloud();return!!(c.enabled&&c.binId&&c.masterKey);}
 
@@ -885,60 +929,76 @@ function mergeData(remote,local){
   };
 }
 
-async function syncFlow(){
-  if(!cloudEnabled())return;
-  if(syncInFlight){pendingSync=true;return;}
-  syncInFlight=true;
-  setSyncIndicator('syncing');
+function setSyncIndicator(state){data._syncState=state;}
+
+// Pull from cloud + merge into local, save to localStorage. Used at boot.
+async function pullFromCloud(){
+  if(!cloudEnabled())return false;
+  setSyncIndicator('syncing');render();
   try{
     const remote=await cloudPull();
-    let merged=remote?mergeData(remote,data):data;
-    const changed=remote&&JSON.stringify(merged)!==JSON.stringify(data);
-    if(changed){
-      data=merged;
-      try{localStorage.setItem(LOCAL_KEY,JSON.stringify(data));}catch{}
-      render();
+    if(remote){
+      const merged=mergeData(remote,data);
+      if(JSON.stringify(merged)!==JSON.stringify(data)){
+        data=merged;
+        try{localStorage.setItem(LOCAL_KEY,JSON.stringify(data));}catch{}
+      }
+      lastSyncedAt=new Date();
+      setSyncIndicator('ok');
+      return true;
     }
-    const pushed=await cloudPush(data);
-    if(pushed){lastSyncedAt=new Date();setSyncIndicator('ok');}
-    else setSyncIndicator('error');
+    setSyncIndicator('error');
+    return false;
   }catch(e){
-    console.error('sync failed',e);
+    console.error('pull failed',e);
+    setSyncIndicator('error');
+    return false;
+  }
+}
+
+// Pull + merge + push. Used by the manual "Sauvegarder" button.
+async function pushToCloud(){
+  if(!cloudEnabled()){
+    alert('La sync cloud n\'est pas configurée. Va dans ⚙️ Réglages.');
+    return;
+  }
+  if(syncInFlight){pendingSync=true;return;}
+  syncInFlight=true;
+  setSyncIndicator('syncing');render();
+  let ok=false;
+  try{
+    // Always pull-merge before pushing — protects against concurrent edits
+    const remote=await cloudPull();
+    if(remote){
+      const merged=mergeData(remote,data);
+      if(JSON.stringify(merged)!==JSON.stringify(data)){
+        data=merged;
+        try{localStorage.setItem(LOCAL_KEY,JSON.stringify(data));}catch{}
+      }
+    }
+    ok=await cloudPush(data);
+    if(ok){
+      lastSyncedAt=new Date();
+      setMeta({lastExportedAt:new Date().toISOString()});
+      setSyncIndicator('ok');
+      showSaveStatus('saved-cloud');
+    }else{
+      setSyncIndicator('error');
+    }
+  }catch(e){
+    console.error('push failed',e);
     setSyncIndicator('error');
   }
   syncInFlight=false;
-  if(pendingSync){pendingSync=false;setTimeout(syncFlow,500);}
+  render();
+  if(!ok)alert('Échec de la sauvegarde cloud. Vérifie ta connexion internet et réessaie.');
+  if(pendingSync){pendingSync=false;setTimeout(pushToCloud,500);}
 }
 
-function scheduleSync(){
-  if(!cloudEnabled())return;
-  if(syncDebounce)clearTimeout(syncDebounce);
-  syncDebounce=setTimeout(syncFlow,1200);
-}
-
-function setSyncIndicator(state){
-  // Reflected in renderBanners via call to render()
-  data._syncState=state;
-}
-
-function startPolling(){
-  if(pollTimer)clearInterval(pollTimer);
-  if(!cloudEnabled())return;
-  pollTimer=setInterval(async()=>{
-    if(syncInFlight)return;
-    const remote=await cloudPull();
-    if(!remote)return;
-    const merged=mergeData(remote,data);
-    if(JSON.stringify(merged)!==JSON.stringify(data)){
-      data=merged;
-      try{localStorage.setItem(LOCAL_KEY,JSON.stringify(data));}catch{}
-      lastSyncedAt=new Date();
-      render();
-    }
-  },POLL_MS);
-}
-
-function stopPolling(){if(pollTimer){clearInterval(pollTimer);pollTimer=null;}}
+// No-op stubs to preserve call sites in legacy code paths
+function scheduleSync(){}
+function startPolling(){}
+function stopPolling(){}
 
 // ============================================================
 // PDF (IndexedDB-backed)
@@ -1228,12 +1288,32 @@ function renderPanel(g){
       h+='<div class="med-row"><div class="med-top"><div class="med-name-txt">'+esc(m.name)+(m.dosage?'<br><span class="med-dosage">'+esc(m.dosage)+'</span>':'')+(m.dateFin?'<br><span style="font-size:11px;color:#6b7280">Fin : '+esc(fmtShort(m.dateFin))+'</span>':'')+alerteMed+'</div><div class="prise-group">';
       m.moments.forEach(mo=>{
         const log=getLog(g.id,date,m.id,mo);
-        h+='<div class="prise-slot"><span class="prise-label">'+esc(mo)+'</span><button class="p-btn '+esc(log.status)+'" '+(locked?'disabled':'')+' data-act="toggle-status" data-gid="'+gid+'" data-mid="'+esc(m.id)+'" data-mo="'+esc(mo)+'" title="'+esc(sLabel(log.status))+'">'+esc(sIcon(log.status))+'</button>';
+        h+='<div class="prise-slot"><span class="prise-label mo-'+esc(mo)+'">'+esc(mo)+'</span><button class="p-btn '+esc(log.status)+'" '+(locked?'disabled':'')+' data-act="toggle-status" data-gid="'+gid+'" data-mid="'+esc(m.id)+'" data-mo="'+esc(mo)+'" title="'+esc(sLabel(log.status))+'">'+esc(sIcon(log.status))+'</button>';
         h+='<span class="print-status s-'+esc(log.status)+'">'+esc(sLabel(log.status))+'</span>';
         h+='</div>';
       });
-      h+='</div>'+(!locked?'<button class="del-btn no-print" data-act="med-del" data-gid="'+gid+'" data-mid="'+esc(m.id)+'" title="Supprimer">×</button>':'')+'</div>';
+      h+='</div>';
+      if(!locked){
+        h+='<button class="icon-btn no-print" data-act="med-edit-toggle" data-gid="'+gid+'" data-mid="'+esc(m.id)+'" title="Modifier ce médicament">✏️</button>';
+        h+='<button class="del-btn no-print" data-act="med-del" data-gid="'+gid+'" data-mid="'+esc(m.id)+'" title="Supprimer">×</button>';
+      }
+      h+='</div>';
       if(hasPartial)h+='<div class="note-wrap"><input class="note-inp" '+(locked?'disabled':'')+' placeholder="Précise ce qui a été pris partiellement…" value="'+esc(note||'')+'" data-act="save-note" data-gid="'+gid+'" data-mid="'+esc(m.id)+'"/></div>';
+      if(ui.showMedEdit[m.id]&&!locked){
+        const mid=esc(m.id);
+        h+='<div class="form-box no-print" style="margin-top:.5rem">';
+        h+='<div class="form-row"><span class="f-label">Nom</span><input class="f-inp" id="men-'+gid+'-'+mid+'" value="'+esc(m.name)+'"/></div>';
+        h+='<div class="form-row"><span class="f-label">Dosage</span><input class="f-inp" id="med-'+gid+'-'+mid+'" value="'+esc(m.dosage||'')+'" placeholder="ex: 50mg"/></div>';
+        h+='<div class="form-row"><span class="f-label">Prises</span><div class="radio-group">';
+        ['matin','midi','soir','coucher'].forEach(mo=>{
+          const ck=m.moments.includes(mo)?'checked':'';
+          h+='<label class="radio-opt mo-'+mo+'"><input type="checkbox" name="emo-'+gid+'-'+mid+'" value="'+mo+'" '+ck+'> '+mo.charAt(0).toUpperCase()+mo.slice(1)+'</label>';
+        });
+        h+='</div></div>';
+        h+='<div class="form-row"><span class="f-label">Date fin</span><input class="f-inp" type="date" id="mef-'+gid+'-'+mid+'" value="'+esc(m.dateFin||'')+'"/><button class="btn" data-act="med-clear-date" data-gid="'+gid+'" data-mid="'+esc(m.id)+'" title="Supprimer la date de fin">✕ date</button></div>';
+        h+='<div class="form-row"><button class="btn btn-purple" data-act="med-save-edit" data-gid="'+gid+'" data-mid="'+esc(m.id)+'">Enregistrer</button><button class="btn" data-act="med-edit-cancel" data-gid="'+gid+'" data-mid="'+esc(m.id)+'">Annuler</button></div>';
+        h+='</div>';
+      }
       h+='</div>';
     });
     h+='</div>';
@@ -1265,7 +1345,7 @@ function renderPanel(g){
       h+='<div class="form-row"><span class="f-label">Prises</span><div class="radio-group">';
       ['matin','midi','soir','coucher'].forEach(mo=>{
         const checked=(mo==='matin'||mo==='soir')?'checked':'';
-        h+='<label class="radio-opt"><input type="checkbox" name="mo-'+gid+'" value="'+mo+'" '+checked+'> '+mo.charAt(0).toUpperCase()+mo.slice(1)+'</label>';
+        h+='<label class="radio-opt mo-'+mo+'"><input type="checkbox" name="mo-'+gid+'" value="'+mo+'" '+checked+'> '+mo.charAt(0).toUpperCase()+mo.slice(1)+'</label>';
       });
       h+='</div></div>';
       h+='<div class="form-row"><span class="f-label">Date fin</span><input class="f-inp" type="date" id="mfdf-'+gid+'" /></div>';
@@ -1299,23 +1379,18 @@ function renderPanel(g){
 function renderBanners(){
   const banners=document.getElementById('banners');if(!banners)return;
   banners.innerHTML='';
-
-  // Export reminder (only when cloud sync is OFF)
   const m=meta();
-  if(!cloudEnabled()&&m.lastModified){
-    const lastExp=m.lastExportedAt?new Date(m.lastExportedAt):null;
-    const lastMod=new Date(m.lastModified);
-    const overdue=!lastExp||lastMod>lastExp;
-    const sinceExpHours=lastExp?Math.floor((Date.now()-lastExp.getTime())/3600000):null;
-    if(overdue&&(!lastExp||sinceExpHours>=REMIND_EXPORT_HOURS)){
+
+  // Unsaved changes warning (local modif after last cloud push)
+  if(cloudEnabled()&&m.lastModified){
+    const lastMod=new Date(m.lastModified).getTime();
+    const lastPush=m.lastExportedAt?new Date(m.lastExportedAt).getTime():0;
+    if(lastMod>lastPush+1000){ // 1s grace
       const b=document.createElement('div');
       b.className='mode-banner warn';
-      const msg=lastExp
-        ? '⚠️ Dernière sauvegarde il y a '+sinceExpHours+'h — pense à exporter et déposer le fichier sur Drive.'
-        : '⚠️ Aucune sauvegarde exportée encore. Pense à exporter régulièrement.';
-      b.innerHTML='<span class="grow">'+msg+'</span>';
-      const btn=document.createElement('button');btn.className='btn';btn.textContent='⬇️ Exporter maintenant';
-      btn.onclick=exportAll;b.appendChild(btn);
+      b.innerHTML='<span class="grow">⚠️ <b>Modifications non sauvegardées</b> — clique <b>💾 Sauvegarder</b> pour que toute l\'équipe voie tes changements.</span>';
+      const btn=document.createElement('button');btn.className='btn btn-purple';btn.textContent='💾 Sauvegarder maintenant';
+      btn.onclick=pushToCloud;b.appendChild(btn);
       banners.appendChild(b);
     }
   }
@@ -1324,16 +1399,17 @@ function renderBanners(){
   const info=document.createElement('div');
   info.className='mode-banner';
   info.style.fontSize='12px';info.style.padding='6px 12px';
-  const lastExp=m.lastExportedAt?new Date(m.lastExportedAt).toLocaleString('fr-FR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}):'jamais';
   let syncTxt='';
   if(cloudEnabled()){
     const state=data._syncState;
     const lastSyncTxt=lastSyncedAt?lastSyncedAt.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}):'…';
+    const lastPushTxt=m.lastExportedAt?new Date(m.lastExportedAt).toLocaleString('fr-FR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}):'jamais';
     if(state==='syncing')syncTxt='🔄 <b>Sync en cours…</b>';
-    else if(state==='error')syncTxt='⚠️ <b>Erreur de sync</b> — vérifie les réglages.';
-    else syncTxt='🌐 <b>Sync auto activée</b> (dernière : '+esc(lastSyncTxt)+')';
+    else if(state==='error')syncTxt='⚠️ <b>Cloud injoignable</b> — vérifie ta connexion. Tes modifs restent en local en attendant.';
+    else syncTxt='☁️ <b>Cloud actif</b> · chargé à '+esc(lastSyncTxt)+' · dernière sauvegarde : <b>'+esc(lastPushTxt)+'</b>';
   }else{
-    syncTxt='💾 <b>Mode local</b> — Dernière export : <b>'+esc(lastExp)+'</b>';
+    const lastExp=m.lastExportedAt?new Date(m.lastExportedAt).toLocaleString('fr-FR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}):'jamais';
+    syncTxt='💾 <b>Mode local uniquement</b> — Cloud désactivé. Dernière sauvegarde locale : <b>'+esc(lastExp)+'</b>';
   }
   info.innerHTML='<span class="grow">'+syncTxt+'</span>';
   banners.appendChild(info);
@@ -1493,6 +1569,22 @@ function doRename(id){
   render();
 }
 
+function saveMedEdit(gid,mid){
+  const m=girl(gid)?.meds?.find(x=>x.id===mid);if(!m)return;
+  const name=document.getElementById('men-'+gid+'-'+mid)?.value?.trim();
+  if(!name){alert('Le nom ne peut pas être vide.');return;}
+  const dosage=document.getElementById('med-'+gid+'-'+mid)?.value?.trim()||'';
+  const checked=[...document.querySelectorAll('input[name="emo-'+gid+'-'+mid+'"]:checked')].map(x=>x.value);
+  if(!checked.length){alert('Coche au moins un moment de prise.');return;}
+  const dateFin=document.getElementById('mef-'+gid+'-'+mid)?.value||'';
+  m.name=name;m.dosage=dosage;m.moments=checked;m.dateFin=dateFin;
+  m._modifiedAt=nowMs();
+  touchGirl(girl(gid));
+  ui.showMedEdit[mid]=false;
+  saveData();
+  render();
+}
+
 function saveOrdoEdit(gid,idx){
   const o=girl(gid).ordos[idx];if(!o)return;
   const nam=document.getElementById('oen-'+gid+'-'+idx)?.value?.trim();
@@ -1544,11 +1636,14 @@ function doPrint(){
 // SETTINGS MODAL
 // ============================================================
 function openSettings(){
-  const c=getCloud();
-  document.getElementById('cfg-binid').value=c.binId||'';
-  document.getElementById('cfg-key').value=c.masterKey||'';
-  document.getElementById('cfg-enabled').checked=!!c.enabled;
-  document.getElementById('cfg-status').textContent='';
+  // Only show override values (not hardcoded defaults) so user sees blanks unless they overrode
+  let override={};
+  try{override=JSON.parse(localStorage.getItem(CLOUD_KEY)||'{}');}catch{}
+  document.getElementById('cfg-binid').value=override.binId||'';
+  document.getElementById('cfg-key').value=override.masterKey||'';
+  document.getElementById('cfg-enabled').checked=override.enabled!==false;
+  document.getElementById('cfg-status').textContent='Cloud actif : '+(cloudEnabled()?'oui ✓':'non');
+  document.getElementById('cfg-status').style.color=cloudEnabled()?'var(--c-ok)':'var(--c-muted)';
   document.getElementById('settings-modal').style.display='flex';
 }
 async function testSettings(){
@@ -1581,10 +1676,9 @@ function saveSettings(){
 function bindEvents(){
   document.getElementById('login-form').addEventListener('submit',e=>{e.preventDefault();checkMdp();});
   document.getElementById('btn-logout').addEventListener('click',()=>logout(false));
-  document.getElementById('btn-export').addEventListener('click',exportAll);
+  document.getElementById('btn-save-cloud').addEventListener('click',pushToCloud);
   document.getElementById('btn-export-csv').addEventListener('click',exportCSV);
   document.getElementById('btn-print').addEventListener('click',doPrint);
-  document.getElementById('btn-import').addEventListener('click',()=>document.getElementById('hidden-import').click());
   document.getElementById('btn-settings').addEventListener('click',openSettings);
   document.getElementById('hidden-import').addEventListener('change',async e=>{
     const f=e.target.files?.[0];if(f){await importFromFile(f);e.target.value='';}
@@ -1593,6 +1687,8 @@ function bindEvents(){
   document.getElementById('cfg-cancel').addEventListener('click',()=>{document.getElementById('settings-modal').style.display='none';});
   document.getElementById('cfg-save').addEventListener('click',saveSettings);
   document.getElementById('cfg-test').addEventListener('click',testSettings);
+  document.getElementById('cfg-download').addEventListener('click',exportAll);
+  document.getElementById('cfg-upload').addEventListener('click',()=>document.getElementById('hidden-import').click());
   document.getElementById('settings-modal').addEventListener('click',e=>{if(e.target.id==='settings-modal')e.target.style.display='none';});
 
   ['mousemove','keydown','touchstart','click'].forEach(ev=>{
@@ -1664,6 +1760,10 @@ function handlePanelClick(e){
     case 'toggle-med-form': ui.showMedForm[gid]=!ui.showMedForm[gid];ui.showPonctForm[gid]=false;render();break;
     case 'med-form-cancel': ui.showMedForm[gid]=false;render();break;
     case 'med-add': addMed(gid);break;
+    case 'med-edit-toggle': {const mid=a.dataset.mid;ui.showMedEdit[mid]=!ui.showMedEdit[mid];render();break;}
+    case 'med-edit-cancel': ui.showMedEdit[a.dataset.mid]=false;render();break;
+    case 'med-save-edit': saveMedEdit(gid,a.dataset.mid);break;
+    case 'med-clear-date': {const inp=document.getElementById('mef-'+gid+'-'+a.dataset.mid);if(inp)inp.value='';break;}
     case 'toggle-ponct-form': ui.showPonctForm[gid]=!ui.showPonctForm[gid];ui.showMedForm[gid]=false;render();break;
     case 'ponct-form-cancel': ui.showPonctForm[gid]=false;render();break;
     case 'ponct-add': addPonct(gid,a.dataset.date);break;
